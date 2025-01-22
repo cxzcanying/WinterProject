@@ -13,7 +13,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
 #设置输出日志级别
-logging:
-  level:
-    org.springframework.web: INFO
-    org.mybatis: INFO
+#logging:
+#  level:
+#    org.springframework.web: INFO
+#    org.mybatis: INFO

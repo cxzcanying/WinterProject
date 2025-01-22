@@ -1,4 +1,9 @@
 package com.cxzcanying.winterproject.service.impl;
 
-public class ReviewServiceImpl {
+import com.cxzcanying.winterproject.service.ReviewService;
+
+/**
+ * @author 21311
+ */
+public class ReviewServiceImpl implements ReviewService {
 }

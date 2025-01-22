@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxzcanying.winterproject.mapper.BookMapper">
+    <insert id="addByName" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO book (title, isbn, author, published_year, price, category)
+            VALUES (#{title}, #{isbn}, #{author}, #{publishedYear}, #{price}, #{category})
+    </insert>
+
+    <update id="updateBookById">
+        UPDATE book
+        SET title = #{title}, author = #{author}, isbn = #{isbn}, published_year = #{publishedYear}, category = #{category}, price = #{price}
+        WHERE id = #{id}
+    </update>
+
+    <select id="getAllBooks" resultType="com.cxzcanying.winterproject.entity.Book">
+        SELECT id, title, isbn, author, published_year, price, category
+        FROM book
+    </select>
+
+    <delete id="deleteBookById">
+        DELETE FROM book WHERE id = #{id}
+    </delete>
+
+    <select id="getBookById" resultType="com.cxzcanying.winterproject.entity.Book">
+        SELECT * FROM book
+                 WHERE id = #{id}
+    </select>
+
+    <resultMap id="BookResultMap" type="com.cxzcanying.winterproject.entity.Book">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="isbn" column="isbn"/>
+        <result property="author" column="author"/>
+        <result property="publishedYear" column="published_year"/>
+        <result property="price" column="price"/>
+        <result property="category" column="category"/>
+    </resultMap>
+</mapper>
