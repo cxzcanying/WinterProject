@@ -20,7 +20,6 @@ public interface CategoryMapper {
 
     void updateCategoryById(Category category);
 
-    List<Book> getBooksByCategoryId(@Param("categoryId") int categoryId);
 
     void deleteCategoryById(Integer id);
 }

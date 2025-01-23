@@ -60,10 +60,4 @@ public class CategoryController{
         categoryService.deleteCategoryById(id);
         return Result.success(category);
     }
-    @GetMapping("./books")
-    public Result<List<Book>> getBookByCategory(@RequestParam(value = "categoryId",defaultValue = "")Integer id){
-        log.info("获取分类id为{}的图书",id);
-        List<Book> bookList=categoryService.getBooksByCategoryId(id);
-        return Result.success(bookList);
-    }
 }

@@ -40,11 +40,5 @@ public interface CategoryService {
      */
     void deleteCategoryById(Integer id);
 
-    /**
-     * 查询指定分类的图书
-     * @param categoryId
-     * @return
-     */
-    List<Book> getBooksByCategoryId(Integer categoryId);
 
 }

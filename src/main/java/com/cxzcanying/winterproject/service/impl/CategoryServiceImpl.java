@@ -44,9 +44,4 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.deleteCategoryById(id);
     }
 
-    @Override
-    public List<Book> getBooksByCategoryId(Integer categoryId) {
-        return categoryMapper.getBooksByCategoryId(categoryId);
-    }
-
 }

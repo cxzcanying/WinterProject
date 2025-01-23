@@ -22,12 +22,6 @@
         SELECT * FROM category
         WHERE id = #{id}
     </select>
-    <select id="getBooksByCategoryId" resultType="com.cxzcanying.winterproject.entity.Book">
-        SELECT book.id, title, isbn, author, published_year, price, category
-        FROM book
-        JOIN category ON book.category=category.category_name
-        WHERE category.id=#{categoryId}
-    </select>
 
     <resultMap id="CategoryResultMap" type="com.cxzcanying.winterproject.entity.Category">
         <id property="id" column="id"/>
