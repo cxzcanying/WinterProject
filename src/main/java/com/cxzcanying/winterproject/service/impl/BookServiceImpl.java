@@ -1,6 +1,7 @@
 package com.cxzcanying.winterproject.service.impl;
 
 import com.cxzcanying.winterproject.entity.Book;
+import com.cxzcanying.winterproject.entity.BookSearchRequest;
 import com.cxzcanying.winterproject.mapper.BookMapper;
 import com.cxzcanying.winterproject.service.BookService;
 import com.github.pagehelper.PageHelper;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+
 
 /**
  * @author 21311
@@ -39,20 +43,35 @@ public class BookServiceImpl implements BookService {
     public void deleteBookById(Integer id) {
         bookMapper.deleteBookById(id);
     }
-
     @Override
     public List<Book> getAllBooks(Integer page, Integer pageSize, String sortField, String sortOrder) {
         PageHelper.startPage(page, pageSize);
-
-        // 如果需要排序
         if (sortField != null && sortOrder != null) {
             PageHelper.orderBy(sortField + " " + sortOrder);
         }
-
-        // 查询所有图书
-        return bookMapper.getAllBooks();
+        return bookMapper.getAllBooks(page, pageSize);
     }
+
+    @Override
+    public List<Book> searchBook(BookSearchRequest bookSearchRequest) {
+        return bookMapper.searchBook(bookSearchRequest.getTitle(),
+                bookSearchRequest.getAuthor(),
+                bookSearchRequest.getIsbn(),
+                bookSearchRequest.getPublishedDateStart(),
+                bookSearchRequest.getPublishedDateEnd(),
+                bookSearchRequest.getPriceMin(),
+                bookSearchRequest.getPriceMax(),
+                bookSearchRequest.getCategory());
+    }
+
+    @Override
+    public List<Book> getBooksByCategoryId(Integer categoryId, Integer page, Integer size, String sortField, String sortOrder) {
+        int offset = (page - 1) * size;
+        return bookMapper.getBooksByCategoryId(categoryId, offset, size);
+    }
+
 }
+
 
 
 

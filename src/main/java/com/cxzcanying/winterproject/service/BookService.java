@@ -1,5 +1,6 @@
 package com.cxzcanying.winterproject.service;
 import com.cxzcanying.winterproject.entity.Book;
+import com.cxzcanying.winterproject.entity.BookSearchRequest;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -41,5 +42,21 @@ public interface BookService {
      * @param sortOrder
      * @return
      */
-    List<Book> getAllBooks(Integer page, Integer pageSize, String sortField,String sortOrder);
+    public List<Book> getAllBooks(Integer page, Integer pageSize, String sortField, String sortOrder);
+
+    /**
+     * 图书搜索与过滤
+     * @param bookSearchRequest
+     * @return
+     */
+    List<Book> searchBook(BookSearchRequest bookSearchRequest);
+
+    List<Book> getBooksByCategoryId(Integer categoryId, Integer page, Integer size, String sortField, String sortOrder);
+
+    /**
+     * 获取指定分类图书
+     * @param categoryId
+     * @return
+     */
+
 }

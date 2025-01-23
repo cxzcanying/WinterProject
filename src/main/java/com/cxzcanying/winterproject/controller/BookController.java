@@ -1,12 +1,14 @@
 package com.cxzcanying.winterproject.controller;
 
 import com.cxzcanying.winterproject.entity.Book;
+import com.cxzcanying.winterproject.entity.BookSearchRequest;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.BookService;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,32 +26,42 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping(produces = "application/json")
-    public Result<Book> add(@Valid @RequestBody Book book){
+    public Result<Book> addBook(@Valid @RequestBody Book book){
         log.info("新增:{}",book);
         bookService.addBook(book);
         return Result.success(book);
     }
 
     @GetMapping
-    public Result<List<Book>> getAllBooks(
-            @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "size", defaultValue = "10") int size,
-            @RequestParam(value = "sort", defaultValue = "title") String sort) {
-        log.info("分页排序查询，参数{},{},{}",page,size,sort);
+    public Result<List<Book>> getAllBooks(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                          @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                          @RequestParam(value = "sort", defaultValue = "title,asc") String sort,
+                                          @RequestParam(value = "categoryId", required = false) Integer categoryId) {
+        log.info("分页排序查询，参数：page={}, size={}, sort={}, categoryId={}", page, size, sort, categoryId);
         //分割sort参数
         String[] sortParts = sort.split(",");
-        String sortField = sortParts.length > 0 ? sortParts[0] : null;
-        String sortOrder = sortParts.length > 1 ? sortParts[1] : null;
+        String sortField = sortParts.length > 0 ? sortParts[0] : "title";
+        String sortOrder = sortParts.length > 1 ? sortParts[1] : "asc";
 
-        List<Book> books = bookService.getAllBooks(page, size, sortField, sortOrder);
+        List<Book> books;
+        if (categoryId != null) {
+            // 根据分类 ID 获取图书
+            books = bookService.getBooksByCategoryId(categoryId, page, size, sortField, sortOrder);
+        } else {
+            // 获取所有图书，支持分页和排序
+            books = bookService.getAllBooks(page, size, sortField, sortOrder);
+        }
         return Result.success(books);
     }
+
 
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable Integer id){
         log.info("查询id为{}的图书信息",id);
-        return bookService.getBookById(id);
+        Book book=bookService.getBookById(id);
+        return Result.success(book).getData();
     }
+
 
     @PutMapping("/{id}")
     public Result<Book> updateBookById(@PathVariable Integer id,@Valid @RequestBody Book book){
@@ -68,6 +80,30 @@ public class BookController {
         log.info("删除id为{}的图书",id);
         bookService.deleteBookById(id);
         return Result.success(book);
+    }
+
+    @GetMapping("/search")
+    public Result<List<Book>> searchBook(@RequestParam(value = "title", defaultValue = "") String title,
+                                         @RequestParam(value = "author", defaultValue = "") String author,
+                                         @RequestParam(value = "isbn", defaultValue = "") String isbn,
+                                         @RequestParam(value = "publishedDateStart", defaultValue = "") String publishedDateStart,
+                                         @RequestParam(value = "publishedDateEnd", defaultValue = "") String publishedDateEnd,
+                                         @RequestParam(value = "priceMin", defaultValue = "0") Integer priceMin,
+                                         @RequestParam(value = "priceMax", defaultValue = "999999") Integer priceMax,
+                                         @RequestParam(value = "category", defaultValue = "") String category){
+        BookSearchRequest bookSearchRequest = new BookSearchRequest();
+        bookSearchRequest.setTitle(title);
+        bookSearchRequest.setAuthor(author);
+        bookSearchRequest.setIsbn(isbn);
+        bookSearchRequest.setPublishedDateStart(publishedDateStart);
+        bookSearchRequest.setPublishedDateEnd(publishedDateEnd);
+        bookSearchRequest.setPriceMin(priceMin);
+        bookSearchRequest.setPriceMax(priceMax);
+        bookSearchRequest.setCategory(category);
+        log.info("图书高级搜索:书名{}，作者{}，ISBN{}，出版开始时间{}，出版结束时间{}，最低价格{}，最高价格{},分类{}",
+                title,author,isbn,publishedDateStart,publishedDateEnd,priceMin,priceMax,category);
+        List<Book> bookList=bookService.searchBook(bookSearchRequest);
+        return Result.success(bookList);
     }
 
 }
