@@ -2,16 +2,20 @@ package com.cxzcanying.winterproject.service.impl;
 
 import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.BookSearchRequest;
+import com.cxzcanying.winterproject.entity.Borrow;
 import com.cxzcanying.winterproject.mapper.BookMapper;
+import com.cxzcanying.winterproject.mapper.BorrowMapper;
+import com.cxzcanying.winterproject.mapper.FavoriteMapper;
 import com.cxzcanying.winterproject.service.BookService;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.Set;
 
 
 /**
@@ -23,6 +27,8 @@ public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookMapper bookMapper;
+    private BorrowMapper borrowMapper;
+    private FavoriteMapper favoriteMapper;
 
     @Override
     public void addBook(Book book) {
@@ -70,6 +76,47 @@ public class BookServiceImpl implements BookService {
         return bookMapper.getBooksByCategoryId(categoryId, offset, size);
     }
 
+    @Override
+    public Integer countBooksByAuthor(String author) {
+        return bookMapper.countBooksByAuthor(author);
+    }
+
+    @Override
+    public Integer countBooksByPublishedYear(String publishedYear) {
+        return bookMapper.countBooksByPublishedYear(publishedYear);
+    }
+
+    @Override
+    public Integer countBooksByCategory(String category) {
+        return bookMapper.countBooksByCategory(category);
+    }
+    
+    @Override
+    public List<Book> getRecommendations(String userId) {
+    // 1. 获取用户借阅历史
+    List<Borrow> borrowHistory = borrowMapper.getBorrowHistory(userId);
+    
+    // 2. 获取用户收藏列表
+    List<Book> favorites = favoriteMapper.getFavoritesByUserId(userId);
+    
+    // 3. 根据用户历史行为提取特征（分类、作者等）
+    Set<String> categories = new HashSet<>();
+    Set<String> authors = new HashSet<>();
+    
+    borrowHistory.forEach(borrow -> {
+        Book book = bookMapper.getBookById(borrow.getBookId());
+        categories.add(book.getCategory());
+        authors.add(book.getAuthor());
+    });
+    
+    favorites.forEach(book -> {
+        categories.add(book.getCategory());
+        authors.add(book.getAuthor());
+    });
+    
+    // 4. 基于特征推荐相似图书
+    return bookMapper.getRecommendedBooks(categories, authors);
+}
 }
 
 

@@ -51,12 +51,42 @@ public interface BookService {
      */
     List<Book> searchBook(BookSearchRequest bookSearchRequest);
 
-    List<Book> getBooksByCategoryId(Integer categoryId, Integer page, Integer size, String sortField, String sortOrder);
-
     /**
      * 获取指定分类图书
      * @param categoryId
+     * @param page
+     * @param size
+     * @param sortField
+     * @param sortOrder
      * @return
      */
+    List<Book> getBooksByCategoryId(Integer categoryId, Integer page, Integer size, String sortField, String sortOrder);
 
+    /**
+     * 按分类统计图书数量
+     * @param author
+     * @return
+     */
+    Integer countBooksByAuthor(String author);
+
+    /**
+     * 按出版年份统计图书数量
+     * @param publishedYear
+     * @return
+     */
+    Integer countBooksByPublishedYear(String publishedYear);
+
+    /**
+     * 按作者统计图书数量
+     * @param category
+     * @return
+     */
+    Integer countBooksByCategory(String category);
+
+    /**
+     * 获取图书推荐
+     * @param userId 用户ID
+     * @return 推荐图书列表
+     */
+    List<Book> getRecommendations(String userId);
 }

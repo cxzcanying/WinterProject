@@ -3,7 +3,6 @@ package com.cxzcanying.winterproject.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
 /**
  * @author 21311
@@ -17,5 +16,6 @@ public class User {
     private String password;
     private String sex;
     private String birthDate;
-    private boolean isAdmin;
+    private String avatarUrl;
+    private Boolean isAdmin;
 }

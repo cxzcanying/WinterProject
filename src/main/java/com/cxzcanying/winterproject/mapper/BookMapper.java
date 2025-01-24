@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author 21311
@@ -14,7 +15,6 @@ import java.util.Optional;
 public interface BookMapper {
     /**
      * 根据名字添加图书
-     *
      * @param book
      */
     void addByName(Book book);
@@ -82,4 +82,14 @@ public interface BookMapper {
     List<Book> getBooksByCategoryId(@Param("categoryId") int categoryId,
                                     @Param("offset") int offset,
                                     @Param("limit") int limit);
+
+    Integer countBooksByAuthor(String author);
+
+    Integer countBooksByPublishedYear(String publishedYear);
+
+    Integer countBooksByCategory(String category);
+
+    List<Book> getRecommendedBooks(Set<String> categories, Set<String> authors);
+
+
 }

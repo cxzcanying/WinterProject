@@ -17,3 +17,9 @@ mybatis:
 #  level:
 #    org.springframework.web: INFO
 #    org.mybatis: INFO
+aliyun:
+  oss:
+    endpoint: https://oss-cn-chengdu.aliyuncs.com
+    accessKeyId: LTAI5tAae5c33H8pTCMRq5g4
+    accessKeySecret: S6xVr2LWsf5yEXtd1lUqIZ5szJNQNo
+    bucketName: springbot

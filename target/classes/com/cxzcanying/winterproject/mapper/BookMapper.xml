@@ -69,6 +69,28 @@
             LIMIT #{offset}, #{limit}
     </select>
 
+    <select id="countBooksByAuthor" resultType="java.lang.Integer">
+        SELECT COUNT(*),book.author
+        FROM book
+        GROUP BY author
+        HAVING author=#{author}
+    </select>
+
+    <select id="countBooksByPublishedYear" resultType="java.lang.Integer">
+        SELECT COUNT(*),book.published_year
+        FROM book
+        GROUP BY published_year
+        HAVING published_year=#{publishedYear}
+    </select>
+
+    <select id="countBooksByCategory" resultType="java.lang.Integer">
+        SELECT COUNT(*),book.category
+        FROM book
+        GROUP BY category
+        HAVING category=#{category}
+    </select>
+    <select id="getRecommendedBooks" resultType="com.cxzcanying.winterproject.entity.Book"></select>
+
 
     <resultMap id="BookResultMap" type="com.cxzcanying.winterproject.entity.Book">
         <id property="id" column="id"/>

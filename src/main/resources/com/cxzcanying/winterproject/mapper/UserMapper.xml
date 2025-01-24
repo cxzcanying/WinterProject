@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cxzcanying.winterproject.mapper.UserMapper">
+    <insert id="registerUser">
+        INSERT INTO user  (user_name,password,sex,birth_date,is_admin)
+        VALUES (#{userName},#{password},#{sex},#{birthDate},#{isAdmin})
+    </insert>
+
+    <update id="updateProfile">
+        UPDATE user
+        SET user_name=#{userName},password=#{password},sex=#{sex},birth_date=#{birthDate}
+        WHERE user_id=#{userId}
+    </update>
+
+    <select id="getProfileById" resultType="com.cxzcanying.winterproject.entity.User">
+        SELECT user_id, user_name, password, sex, birth_date, is_admin,avatar_url
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+</mapper>

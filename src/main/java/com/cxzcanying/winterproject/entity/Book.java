@@ -18,7 +18,7 @@ import org.springframework.validation.annotation.Validated;
 public class Book {
 
     private Integer id;
-   @NotEmpty(message = "书名不能为空")
+    @NotEmpty(message = "书名不能为空")
     private String title;
     @Pattern(regexp = "^[0-9]{13}$", message = "ISBN 格式不正确")
     private String isbn;

@@ -106,4 +106,31 @@ public class BookController {
         return Result.success(bookList);
     }
 
+    @GetMapping("/stats/category/{category}")
+    public Result<Integer> countBooksByCategory(@PathVariable String category){
+        log.info("根据分类{}统计图书数量",category);
+        Integer stats=bookService.countBooksByCategory(category);
+        return Result.success(stats);
+    }
+
+    @GetMapping("/stats/publishedYear/{publishedYear}")
+    public Result<Integer> countBooksByPublishedYear(@PathVariable String publishedYear){
+        log.info("根据出版年份{}统计图书数量",publishedYear);
+        Integer stats=bookService.countBooksByPublishedYear(publishedYear);
+        return Result.success(stats);
+    }
+
+    @GetMapping("/stats/author/{author}")
+    public Result<Integer> countBooksByAuthor(@PathVariable String author){
+        log.info("根据作者{}统计图书数量",author);
+        Integer stats=bookService.countBooksByAuthor(author);
+        return Result.success(stats);
+    }
+
+    @GetMapping("/recommendations")
+    public Result<List<Book>> getRecommendations(@RequestParam String userId) {
+        log.info("为用户{}推荐图书", userId);
+        List<Book> recommendations = bookService.getRecommendations(userId);
+        return Result.success(recommendations);
+    }
 }
