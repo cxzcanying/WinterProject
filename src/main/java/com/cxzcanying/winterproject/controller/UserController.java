@@ -4,8 +4,10 @@ import com.cxzcanying.winterproject.entity.Follow;
 import com.cxzcanying.winterproject.entity.User;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.UserService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.print.DocFlavor;
@@ -18,12 +20,13 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/api/users")
+@Validated
 public class UserController {
     @Autowired
     private UserService userService;
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody User user){
+    public void registerUser(@Valid @RequestBody User user){
         log.info("新增用户{}",user);
         userService.registerUser(user);
     }
@@ -36,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/update")
-    public Result<User> updateProfile(@PathVariable String userId,@RequestBody User user){
+    public Result<User> updateProfile(@PathVariable String userId,@Valid @RequestBody User user){
         log.info("ID为{}的用户更新了个人资料{}",userId,user);
         userService.updateProfile(userId,user);
         return Result.success(user);

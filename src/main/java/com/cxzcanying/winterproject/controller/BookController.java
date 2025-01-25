@@ -2,6 +2,7 @@ package com.cxzcanying.winterproject.controller;
 
 import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.BookSearchRequest;
+import com.cxzcanying.winterproject.exception.ResourceNotFoundException;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.BookService;
 
@@ -30,6 +31,7 @@ public class BookController {
         log.info("新增:{}",book);
         bookService.addBook(book);
         return Result.success(book);
+
     }
 
     @GetMapping
@@ -59,6 +61,9 @@ public class BookController {
     public Book getBookById(@PathVariable Integer id){
         log.info("查询id为{}的图书信息",id);
         Book book=bookService.getBookById(id);
+        if (book == null){
+            throw new ResourceNotFoundException(404,"Book not found with id: " + id);
+        }
         return Result.success(book).getData();
     }
 
@@ -100,7 +105,7 @@ public class BookController {
         bookSearchRequest.setPriceMin(priceMin);
         bookSearchRequest.setPriceMax(priceMax);
         bookSearchRequest.setCategory(category);
-        log.info("图书高级搜索:书名{}，作者{}，ISBN{}，出版开始时间{}，出版结束时间{}，最低价格{}，最高价格{},分类{}",
+        log.info("图书搜索与过滤:书名{}，作者{}，ISBN{}，出版开始时间{}，出版结束时间{}，最低价格{}，最高价格{},分类{}",
                 title,author,isbn,publishedDateStart,publishedDateEnd,priceMin,priceMax,category);
         List<Book> bookList=bookService.searchBook(bookSearchRequest);
         return Result.success(bookList);
@@ -132,5 +137,27 @@ public class BookController {
         log.info("为用户{}推荐图书", userId);
         List<Book> recommendations = bookService.getRecommendations(userId);
         return Result.success(recommendations);
+    }
+
+    @GetMapping("/advanced-search")
+    public Result<List<Book>> advancedSearchBook(@RequestParam(value = "title", defaultValue = "") String title,
+                                         @RequestParam(value = "author", defaultValue = "") String author,
+                                         @RequestParam(value = "isbn", defaultValue = "") String isbn,
+                                         @RequestParam(value = "publishedYear", defaultValue = "") String publishedYear,
+                                         @RequestParam(value = "priceMin", defaultValue = "0") Integer priceMin,
+                                         @RequestParam(value = "priceMax", defaultValue = "999999") Integer priceMax,
+                                         @RequestParam(value = "category", defaultValue = "") String category){
+        BookSearchRequest bookSearchRequest = new BookSearchRequest();
+        bookSearchRequest.setTitle(title);
+        bookSearchRequest.setAuthor(author);
+        bookSearchRequest.setIsbn(isbn);
+        bookSearchRequest.setPublishedYear(publishedYear);
+        bookSearchRequest.setPriceMin(priceMin);
+        bookSearchRequest.setPriceMax(priceMax);
+        bookSearchRequest.setCategory(category);
+        log.info("图书高级搜索:书名{}，作者{}，ISBN{}，出版时间{}，最低价格{}，最高价格{},分类{}",
+                title,author,isbn,publishedYear,priceMin,priceMax,category);
+        List<Book> bookList=bookService.advancedSearchBook(bookSearchRequest);
+        return Result.success(bookList);
     }
 }

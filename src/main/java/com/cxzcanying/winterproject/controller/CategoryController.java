@@ -44,7 +44,7 @@ public class CategoryController{
         return Result.success(category).getData();
     }
     @PutMapping("/{id}")
-    public Result<Category> updateCategoryById(@PathVariable Integer id,@RequestBody Category category){
+    public Result<Category> updateCategoryById(@PathVariable Integer id,@Valid @RequestBody Category category){
         log.info("更新id为{}分类的信息",id);
         category.setId(id);
         categoryService.updateCategoryById(category);

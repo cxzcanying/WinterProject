@@ -9,9 +9,30 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper {
+    /**
+     * 获取个人资料
+     * @param userId
+     * @return User
+     */
     User getProfileById(String userId);
 
+    /**
+     * 更新资料
+     * @param userId
+     * @param user
+     */
     void updateProfile(String userId, User user);
 
+    /**
+     * 注册用户
+     * @param user
+     */
     void registerUser(User user);
+
+    /**
+     * 更新用户头像URL
+     * @param userId
+     * @param avatarUrl
+     */
+    void updateAvatarUrl(String userId, String avatarUrl);
 }

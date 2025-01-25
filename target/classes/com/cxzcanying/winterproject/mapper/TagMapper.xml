@@ -12,19 +12,29 @@
     </insert>
 
     <select id="getTagsByBookId" resultType="com.cxzcanying.winterproject.entity.Tag">
-        SELECT t.* FROM tag t
-                            JOIN book_tag bt ON t.id = bt.tag_id
+        SELECT t.*, bt.book_id
+        FROM tag t
+                 JOIN book_tag bt ON t.id = bt.tag_id
         WHERE bt.book_id = #{bookId}
     </select>
 
-    <select id="getBooksByTagName" resultType="com.cxzcanying.winterproject.entity.Book">
+    <select id="getBooksByTagId" resultType="com.cxzcanying.winterproject.entity.Book">
         SELECT b.* FROM book b
                             JOIN book_tag bt ON b.id = bt.book_id
                             JOIN tag t ON bt.tag_id = t.id
-        WHERE t.name = #{tagName}
+        WHERE t.id = #{tagId}
     </select>
 
     <delete id="deleteTag">
+        DELETE FROM book_tag WHERE tag_id = #{tagId};
         DELETE FROM tag WHERE id = #{tagId}
     </delete>
+
+    <resultMap id="TagResultMapper" type="com.cxzcanying.winterproject.entity.Tag">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="userId" column="user_id"/>
+        <result property="bookId" column="book_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
 </mapper>

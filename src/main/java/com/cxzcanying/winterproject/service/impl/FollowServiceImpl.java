@@ -32,4 +32,9 @@ public class FollowServiceImpl implements FollowService {
     public void followUser(Follow follow) {
         followMapper.followUser(follow);
     }
+
+    @Override
+    public void unfollowUser(String followingId, String userId) {
+        followMapper.unfollowUser(followingId,userId);
+    }
 }

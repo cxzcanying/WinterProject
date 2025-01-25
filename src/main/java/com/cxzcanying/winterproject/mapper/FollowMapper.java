@@ -11,9 +11,30 @@ import java.util.List;
 
 @Mapper
 public interface FollowMapper {
-    public List<String> getFollowingById(String userId) ;
+    /**
+     * 获取指定用户的关注列表
+     * @param userId
+     * @return List<String>
+     */
+    List<String> getFollowingById(String userId) ;
 
-    public List<String> getFollowersById(String userId);
+    /**
+     * 获取指定用户的粉丝列表
+     * @param userId
+     * @return List<String>
+     */
+    List<String> getFollowersById(String userId);
 
-    public void followUser(Follow follow) ;
+    /**
+     * 关注用户
+     * @param follow
+     */
+    void followUser(Follow follow) ;
+
+    /**
+     * 取消关注用户
+     * @param followingId
+     * @param userId
+     */
+    void unfollowUser(String followingId, String userId);
 }

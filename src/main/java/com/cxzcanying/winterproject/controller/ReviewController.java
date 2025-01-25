@@ -3,8 +3,10 @@ package com.cxzcanying.winterproject.controller;
 import com.cxzcanying.winterproject.entity.Review;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,13 +17,14 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/books/{bookId}/reviews")
+@Validated
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
     @PostMapping
-    public Result<Review> addReview(@PathVariable Integer bookId, @RequestBody Review review) {
-        log.info("为图书{}添加评论", bookId);
+    public Result<Review> addReview(@PathVariable Integer bookId, @Valid @RequestBody Review review) {
+        log.info("为图书{}添加评论{}", bookId,review);
         review.setBookId(bookId);
         reviewService.addReview(review);
         return Result.success(review);
@@ -37,8 +40,8 @@ public class ReviewController {
     @PostMapping("/{reviewId}/replies")
     public Result<Review> replyToReview(@PathVariable Integer bookId, 
                                       @PathVariable Integer reviewId, 
-                                      @RequestBody Review reply) {
-        log.info("回复评论{}", reviewId);
+                                      @Valid @RequestBody Review reply) {
+        log.info("用户ID:{}在图书ID:{}下的评论ID:{}回复评论:{}", reply.getUserId(),bookId,reviewId,reply);
         reply.setBookId(bookId);
         reply.setParentId(reviewId);
         reviewService.addReview(reply);

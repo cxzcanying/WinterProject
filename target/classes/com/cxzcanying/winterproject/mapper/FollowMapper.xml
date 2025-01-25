@@ -6,6 +6,11 @@
         VALUES (#{followerId}, #{followingId})
     </insert>
 
+    <delete id="unfollowUser">
+        DELETE FROM follow
+        WHERE following_id=#{followingId} AND follower_id=#{userId}
+    </delete>
+
     <select id="getFollowingById" resultType="java.lang.String">
         SELECT * FROM follow
         WHERE follower_id = #{followerId}
@@ -15,7 +20,9 @@
         SELECT * FROM follow
         WHERE following_id = #{followingId}
     </select>
+
     <resultMap id="FollowResultMap" type="com.cxzcanying.winterproject.entity.Follow">
+        <result property="followerId" column="userId"/>
         <result property="followerId" column="follower_id"/>
         <result property="followingId" column="following_id"/>
     </resultMap>

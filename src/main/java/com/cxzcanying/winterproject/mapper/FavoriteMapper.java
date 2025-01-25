@@ -11,9 +11,23 @@ import java.util.List;
  */
 @Mapper
 public interface FavoriteMapper {
+    /**
+     * 删除收藏
+     * @param userId
+     * @param bookId
+     */
     void deleteFavorite(String userId, Integer bookId);
 
+    /**
+     * 添加收藏
+     * @param favorite
+     */
     void addFavorite(Favorite favorite);
 
+    /**
+     * 获取指定用户的收藏列表
+     * @param userId
+     * @return List<Book>
+     */
     List<Book> getFavoritesByUserId(String userId);
 }

@@ -4,8 +4,10 @@ import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.Tag;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.TagService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,36 +17,37 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/books/{bookId}/tags")
+@RequestMapping("/api")
+@Validated
 public class TagController {
     @Autowired
     private TagService tagService;
 
-    @PostMapping
-    public Result<Tag> addTag(@PathVariable Integer bookId, @RequestBody Tag tag) {
+    @PostMapping("/books/{bookId}/tags")
+    public Result<Tag> addTag(@PathVariable Integer bookId, @Valid @RequestBody Tag tag) {
         log.info("为图书{}添加标签", bookId);
         tag.setBookId(bookId);
         tagService.addTag(tag);
         return Result.success(tag);
     }
 
-    @GetMapping
+    @GetMapping("/books/{bookId}/tags")
     public Result<List<Tag>> getBookTags(@PathVariable Integer bookId) {
-        log.info("获取图书{}的标签列表", bookId);
         List<Tag> tags = tagService.getTagsByBookId(bookId);
+        log.info("获取图书{}的标签列表tags{}", bookId,tags);
         return Result.success(tags);
     }
 
-    @DeleteMapping("/{tagId}")
+    @GetMapping("/tags/{tagId}/books")
+    public Result<List<Book>> getBooksByTagId(@PathVariable String tagId){
+        log.info("获取TagID为{}的图书列表",tagId);
+        List<Book> books = tagService.getBooksByTagId(tagId);
+        return Result.success(books);
+    }
+
+    @DeleteMapping("/books/{bookId}/tags/{tagId}")
     public void deleteTag(@PathVariable Integer bookId, @PathVariable Integer tagId) {
         log.info("删除图书{}的标签{}", bookId, tagId);
         tagService.deleteTag(tagId);
-    }
-
-    @GetMapping("/search")
-    public Result<List<Book>> getBooksByTag(@RequestParam String tagName) {
-        log.info("搜索标签{}相关的图书", tagName);
-        List<Book> books = tagService.getBooksByTagName(tagName);
-        return Result.success(books);
     }
 }

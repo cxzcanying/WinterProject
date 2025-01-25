@@ -12,9 +12,20 @@
         WHERE user_id=#{userId}
     </update>
 
+    <update id="updateAvatarUrl">
+        UPDATE user
+        SET avatar_url = #{avatarUrl}
+        WHERE user_id=#{userId}
+    </update>
+
     <select id="getProfileById" resultType="com.cxzcanying.winterproject.entity.User">
         SELECT user_id, user_name, password, sex, birth_date, is_admin,avatar_url
         FROM user
         WHERE user_id = #{userId}
     </select>
+
+    <resultMap id="UserResultMap" type="com.cxzcanying.winterproject.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+    </resultMap>
 </mapper>

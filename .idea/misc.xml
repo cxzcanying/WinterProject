@@ -5,6 +5,9 @@
       <item index="0" class="java.lang.String" itemvalue="lombok.AllArgsConstructor" />
       <item index="1" class="java.lang.String" itemvalue="lombok.extern.slf4j.Slf4j" />
     </list>
+    <writeAnnotations>
+      <writeAnnotation name="lombok.Getter" />
+    </writeAnnotations>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">

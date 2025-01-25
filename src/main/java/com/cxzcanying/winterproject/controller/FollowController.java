@@ -3,8 +3,10 @@ package com.cxzcanying.winterproject.controller;
 import com.cxzcanying.winterproject.entity.Follow;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.FollowService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/users/{userId}")
+@Validated
 public class FollowController {
     @Autowired
     private FollowService followService;
@@ -22,8 +25,15 @@ public class FollowController {
     //关注用户
 
     @PostMapping("/follow")
-    public void followUser(@PathVariable String userId, @RequestBody Follow follow){
+    public void followUser(@PathVariable String userId, @Valid @RequestBody Follow follow){
         followService.followUser(follow);
+    }
+
+    //取消关注
+
+    @DeleteMapping("/unfollow/{followingId}")
+    public void unfollowUser(@PathVariable String followingId, @PathVariable String userId){
+        followService.unfollowUser(followingId,userId);
     }
 
     //用户的粉丝

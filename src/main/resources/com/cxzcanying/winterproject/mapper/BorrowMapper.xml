@@ -23,4 +23,14 @@
         SELECT * FROM borrow
         WHERE book_id = #{bookId} AND status = 'BORROWED'
     </select>
+
+    <resultMap id="BorrowResultMap" type="com.cxzcanying.winterproject.entity.Borrow">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="bookId" column="book_id"/>
+        <result property="borrowTime" column="borrow_time"/>
+        <result property="dueTime" column="due_time"/>
+        <result property="returnTime" column="return_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
 </mapper>

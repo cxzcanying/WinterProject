@@ -72,24 +72,74 @@
     <select id="countBooksByAuthor" resultType="java.lang.Integer">
         SELECT COUNT(*),book.author
         FROM book
+        WHERE author=#{author}
         GROUP BY author
-        HAVING author=#{author}
     </select>
 
     <select id="countBooksByPublishedYear" resultType="java.lang.Integer">
         SELECT COUNT(*),book.published_year
         FROM book
+        WHERE published_year=#{publishedYear}
         GROUP BY published_year
-        HAVING published_year=#{publishedYear}
     </select>
 
     <select id="countBooksByCategory" resultType="java.lang.Integer">
         SELECT COUNT(*),book.category
         FROM book
+        WHERE category=#{category}
         GROUP BY category
-        HAVING category=#{category}
     </select>
-    <select id="getRecommendedBooks" resultType="com.cxzcanying.winterproject.entity.Book"></select>
+
+    <select id="getRecommendedBooks" resultType="com.cxzcanying.winterproject.entity.Book">
+        SELECT DISTINCT *
+        FROM book
+        WHERE category IN
+        <foreach item="category" collection="categories" open="(" separator="," close=")">
+            #{category}
+        </foreach>
+        OR author IN
+        <foreach item="author" collection="authors" open="(" separator="," close=")">
+            #{author}
+        </foreach>
+        ORDER BY published_year DESC
+        LIMIT 10
+    </select>
+    <!--解析：DISTINCT去重,<foreach> 用于遍历集合或数组，并生成 SQL 语句的一部分
+    item="category": 定义当前遍历元素的变量名为 category
+    collection="categories": 指定要遍历的集合为 categories（通常是一个 List 或数组）
+    open="(": 在生成的 SQL 片段前添加一个左括号,close=")": 在生成的 SQL 片段后添加一个右括号,IN子句需要括号来包裹列表值
+    separator=",": 在每个元素之间添加逗号
+    #{category}: 将当前遍历的元素值插入到 SQL 中-->
+
+    <select id="advancedSearchBook" resultType="com.cxzcanying.winterproject.entity.Book">
+        SELECT id, title, isbn, author, published_year, price, category
+        FROM book
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="author != null and author != ''">
+                AND author LIKE CONCAT('%', #{author}, '%')
+            </if>
+            <if test="isbn != null and isbn != ''">
+                AND book_isbn = #{isbn}
+            </if>
+            <if test="publishedYear != null">
+                AND published_year = #{publishedYear}
+            </if>
+            <if test="priceMin != null and priceMax != null">
+                AND price BETWEEN #{priceMin} AND #{priceMax}
+            </if>
+            <if test="category != null and category != ''">
+                AND category = #{category}
+            </if>
+        </where>
+    </select>
+
+    <select id="getBookByIsbn" resultType="com.cxzcanying.winterproject.entity.Book">
+        SELECT * FROM book
+        WHERE isbn = #{isbn}
+    </select>
 
 
     <resultMap id="BookResultMap" type="com.cxzcanying.winterproject.entity.Book">

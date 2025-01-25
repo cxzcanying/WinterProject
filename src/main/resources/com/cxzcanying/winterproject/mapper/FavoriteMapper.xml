@@ -12,9 +12,15 @@
     </delete>
 
     <select id="getFavoritesByUserId" resultType="com.cxzcanying.winterproject.entity.Book">
-        SELECT b.id, b.title, b.author, b.category, b.price,b.published_year,f.created_at
+        SELECT b.id, b.title, b.author, b.category, b.price,b.published_year,f.created_at,b.isbn
         FROM favorite f
                  JOIN book b ON f.book_id = b.id
         WHERE f.user_id = #{userId}
     </select>
+
+    <resultMap id="FavoriteResultMap" type="com.cxzcanying.winterproject.entity.Favorite">
+    <id property="id" column="id"/>
+    <result property="bookId" column="book_id"/>
+    <result property="userId" column="user_id"/>
+    </resultMap>
 </mapper>

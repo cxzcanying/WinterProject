@@ -12,14 +12,34 @@ import java.util.List;
  */
 @Mapper
 public interface CategoryMapper {
+    /**
+     * 添加分类
+     * @param category
+     */
     void addByName(Category category);
 
+    /**
+     * 获取全部分类
+     * @return List<Category>
+     */
     List<Category> getAllCategory();
 
+    /**
+     * 获取指定ID的分类
+     * @param id
+     * @return Category
+     */
     Category getCategoryById(Integer id);
 
+    /**
+     * 更新指定ID的分类
+     * @param category
+     */
     void updateCategoryById(Category category);
 
-
+    /**
+     * 删除分类
+     * @param id
+     */
     void deleteCategoryById(Integer id);
 }

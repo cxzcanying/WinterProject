@@ -24,18 +24,14 @@ public class BorrowServiceImpl implements BorrowService {
 
     @Override
     public void borrowBook(Borrow borrow) {
-        // 检查图书是否已被借出
         Borrow existingBorrow = borrowMapper.getBorrowByBookId(borrow.getBookId());
         if (existingBorrow != null) {
             throw new IllegalStateException("该图书已被借出");
         }
-
-        // 设置借阅信息
         borrow.setBorrowTime(LocalDateTime.now());
         // 默认借阅30天
         borrow.setDueTime(LocalDateTime.now().plusDays(30));
         borrow.setStatus("BORROWED");
-
         borrowMapper.addBorrow(borrow);
     }
 
@@ -43,17 +39,14 @@ public class BorrowServiceImpl implements BorrowService {
     public Borrow returnBook(Integer bookId) {
         Borrow borrow = borrowMapper.getBorrowByBookId(bookId);
         if (borrow == null) {
-            throw new ResourceNotFoundException("未找到该借阅记录");
+            throw new ResourceNotFoundException(404,"未找到该借阅记录");
         }
-
         borrow.setReturnTime(LocalDateTime.now());
         borrow.setStatus("RETURNED");
-
         // 如果超期，更新状态为OVERDUE
         if (LocalDateTime.now().isAfter(borrow.getDueTime())) {
             borrow.setStatus("OVERDUE");
         }
-
         borrowMapper.updateBorrow(borrow);
         return borrow;
     }

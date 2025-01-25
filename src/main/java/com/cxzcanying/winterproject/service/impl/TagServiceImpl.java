@@ -22,6 +22,7 @@ public class TagServiceImpl implements TagService {
     public void addTag(Tag tag) {
         tag.setCreateTime(LocalDateTime.now());
         tagMapper.addTag(tag);
+        tagMapper.addBookTag(tag.getBookId(),tag.getId(),tag.getUserId());
     }
 
     @Override
@@ -34,8 +35,9 @@ public class TagServiceImpl implements TagService {
         tagMapper.deleteTag(tagId);
     }
 
+
     @Override
-    public List<Book> getBooksByTagName(String tagName) {
-        return tagMapper.getBooksByTagName(tagName);
+    public List<Book> getBooksByTagId(String tagId) {
+        return tagMapper.getBooksByTagId(tagId);
     }
 }
