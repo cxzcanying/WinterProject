@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {
-    @NotNull(message = "ID不能为空")
     private Integer id;
     @NotEmpty(message = "分类名称不能为空")
     private String categoryName;

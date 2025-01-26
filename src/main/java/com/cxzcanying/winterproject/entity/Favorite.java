@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 @Validated
 public class Favorite {
-    @NotNull(message = "ID不能为空")
     private Integer id;
     @NotEmpty(message = "用户ID不能为空")
     private Integer userId;

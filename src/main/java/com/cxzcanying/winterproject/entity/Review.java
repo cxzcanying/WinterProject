@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @Validated
 public class Review {
-    @NotNull(message = "ID不能为空")
     private Integer id;
     
     @NotNull(message = "图书ID不能为空")

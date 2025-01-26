@@ -32,4 +32,12 @@ public interface UserService {
      * @param avatarUrl
      */
     void updateAvatarUrl(String userId, String avatarUrl);
+
+    /**
+     * 登录
+     * @param userName
+     * @param password
+     * @return User
+     */
+    User login(String userName, String password);
 }

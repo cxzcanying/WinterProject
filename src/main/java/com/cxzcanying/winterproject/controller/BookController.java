@@ -28,10 +28,14 @@ public class BookController {
 
     @PostMapping(produces = "application/json")
     public Result<Book> addBook(@Valid @RequestBody Book book){
-        log.info("新增:{}",book);
-        bookService.addBook(book);
-        return Result.success(book);
-
+        try {
+            log.info("新增:{}", book);
+            bookService.addBook(book);
+            return Result.success(book);
+        } catch (Exception e) {
+            log.error("添加图书失败", e);
+            return Result.fail("添加图书失败: " + e.getMessage());
+        }
     }
 
     @GetMapping

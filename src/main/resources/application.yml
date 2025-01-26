@@ -4,6 +4,12 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
   servlet:
     multipart:
       max-file-size: 10MB
@@ -19,7 +25,7 @@ mybatis:
 #    org.mybatis: INFO
 aliyun:
   oss:
-    endpoint: https://oss-cn-chengdu.aliyuncs.com
-    accessKeyId: LTAI5tAae5c33H8pTCMRq5g4
-    accessKeySecret: S6xVr2LWsf5yEXtd1lUqIZ5szJNQNo
-    bucketName: springbot
+    endpoint: endpoint
+    accessKeyId: accessKeyId
+    accessKeySecret: accessKeySecret
+    bucketName: bucketName

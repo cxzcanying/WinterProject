@@ -35,4 +35,11 @@ public interface UserMapper {
      * @param avatarUrl
      */
     void updateAvatarUrl(String userId, String avatarUrl);
+
+    /**
+     * 登录
+     * @param userName
+     * @return User
+     */
+    User findByUserName(String userName);
 }

@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.DocFlavor;
 import java.util.List;
@@ -43,5 +44,16 @@ public class UserController {
         log.info("ID为{}的用户更新了个人资料{}",userId,user);
         userService.updateProfile(userId,user);
         return Result.success(user);
+    }
+
+    @PostMapping("/login")
+    public Result<User> login(@RequestParam String userName, @RequestParam String password) {
+        log.info("用户{}尝试登录", userName);
+        User user = userService.login(userName, password);
+        if (user != null) {
+            return Result.success(user);
+        } else {
+            return Result.fail("用户名或密码错误");
+        }
     }
 }

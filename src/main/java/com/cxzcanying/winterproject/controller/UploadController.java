@@ -22,7 +22,7 @@ public class UploadController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/api/users/{userId}/update/upload")
+    @PostMapping("/api/users/{userId}/avatar")
     public Result<String> uploadAvatar(MultipartFile image , @PathVariable String userId) throws IOException {
         log.info("ID为{}的用户上传,文件名:{}",userId,image.getOriginalFilename());
         //调用阿里云OSS工具类，将上传上来的文件存入阿里云

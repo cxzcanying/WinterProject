@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Validated
 public class Tag {
-    @NotNull(message = "ID不能为空")
     private Integer id;
     @NotEmpty(message = "名称不能为空")
     private String name;

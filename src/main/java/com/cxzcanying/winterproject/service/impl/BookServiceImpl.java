@@ -12,6 +12,8 @@ import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -45,11 +47,13 @@ public class BookServiceImpl implements BookService {
             bookMapper.addByName(book);
     }
 
+    @Cacheable(value = "books", key = "#id")
     @Override
     public Book getBookById(Integer id) {
         return bookMapper.getBookById(id);
     }
 
+    @CacheEvict(value = "books", key = "#book.id")
     @Override
     public void updateBookById(Book book) {
         bookMapper.updateBookById(book);

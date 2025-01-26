@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Validated
 public class Borrow {
-    @NotNull(message = "ID不能为空")
     private Integer id;
     
     @NotEmpty(message = "用户ID不能为空")

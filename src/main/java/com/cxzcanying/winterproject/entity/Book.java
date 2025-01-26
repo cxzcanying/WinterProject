@@ -15,8 +15,6 @@ import org.springframework.validation.annotation.Validated;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
-
-    @NotNull(message = "ID不能为空")
     private Integer id;
     
     @NotEmpty(message = "书名不能为空")
