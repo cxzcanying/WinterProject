@@ -2,12 +2,15 @@ package com.cxzcanying.winterproject.exception;
 
 import lombok.Getter;
 
-public class DuplicateISBNException extends RuntimeException {
+/**
+ * @author 21311
+ */
+public class DuplicateIsbnException extends RuntimeException {
     @Getter
     private int code;
-    private String message;
+    private final String message;
 
-    public DuplicateISBNException(int code, String message) {
+    public DuplicateIsbnException(int code, String message) {
         super(message);
         this.code = code;
         this.message = message;

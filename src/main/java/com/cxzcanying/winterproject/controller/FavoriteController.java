@@ -27,23 +27,39 @@ public class FavoriteController {
 
     @PostMapping
     public Result<Favorite> addFavorite(@PathVariable String userId, @Valid @RequestBody Favorite favorite) {
-        log.info("用户{}添加收藏图书", userId);
-        favorite.setUserId(Integer.valueOf(userId));
-        favorite.setCreateAt(String.valueOf(LocalDateTime.now()));
-        favoriteService.addFavorite(favorite);
-        return Result.success(favorite);
+        try {
+            log.info("用户{}添加收藏图书", userId);
+            favorite.setUserId(Integer.valueOf(userId));
+            favorite.setCreateAt(String.valueOf(LocalDateTime.now()));
+            favoriteService.addFavorite(favorite);
+            return Result.success(favorite);
+        } catch (Exception e) {
+            log.error("添加收藏失败", e);
+            return Result.fail("添加收藏失败: " + e.getMessage());
+        }
     }
 
     @GetMapping
     public Result<List<Book>> getFavorites(@PathVariable String userId) {
-        log.info("获取用户{}的收藏列表", userId);
-        List<Book> favorites = favoriteService.getFavoritesByUserId(userId);
-        return Result.success(favorites);
+        try {
+            log.info("获取用户{}的收藏列表", userId);
+            List<Book> favorites = favoriteService.getFavoritesByUserId(userId);
+            return Result.success(favorites);
+        } catch (Exception e) {
+            log.error("获取收藏列表失败", e);
+            return Result.fail("获取收藏列表失败: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{bookId}")
-    public void deleteFavorite(@PathVariable String userId, @PathVariable Integer bookId) {
-        log.info("用户{}删除收藏图书{}", userId, bookId);
-        favoriteService.deleteFavorite(userId, bookId);
+    public Result<?> deleteFavorite(@PathVariable String userId, @PathVariable Integer bookId) {
+        try {
+            log.info("用户{}删除收藏图书{}", userId, bookId);
+            favoriteService.deleteFavorite(userId, bookId);
+            return Result.success("删除收藏成功");
+        } catch (Exception e) {
+            log.error("删除收藏失败", e);
+            return Result.fail("删除收藏失败: " + e.getMessage());
+        }
     }
 }

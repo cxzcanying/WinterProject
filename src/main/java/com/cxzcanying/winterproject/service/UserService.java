@@ -14,7 +14,7 @@ public interface UserService {
     void updateProfile(String userId, User user);
 
     /**
-     * 诸城用户
+     * 注册用户
      * @param user
      */
     void registerUser(User user);

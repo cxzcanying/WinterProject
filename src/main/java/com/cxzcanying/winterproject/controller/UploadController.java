@@ -23,13 +23,16 @@ public class UploadController {
     private UserService userService;
 
     @PostMapping("/api/users/{userId}/avatar")
-    public Result<String> uploadAvatar(MultipartFile image , @PathVariable String userId) throws IOException {
-        log.info("ID为{}的用户上传,文件名:{}",userId,image.getOriginalFilename());
-        //调用阿里云OSS工具类，将上传上来的文件存入阿里云
-        String avatarUrl = aliOSSUtils.upload(image);
-        //将图片上传完成后的url返回，用于浏览器回显展示
-        userService.updateAvatarUrl(userId,avatarUrl);
-        return Result.success(avatarUrl);
+    public Result<String> uploadAvatar(MultipartFile image, @PathVariable String userId) {
+        try {
+            log.info("ID为{}的用户上传,文件名:{}", userId, image.getOriginalFilename());
+            String avatarUrl = aliOSSUtils.upload(image);
+            userService.updateAvatarUrl(userId, avatarUrl);
+            return Result.success(avatarUrl);
+        } catch (Exception e) {
+            log.error("上传头像失败", e);
+            return Result.fail("上传头像失败: " + e.getMessage());
+        }
     }
 
 }

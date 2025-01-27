@@ -25,23 +25,38 @@ public class BorrowController {
 
     @PostMapping("/books/{bookId}/borrow")
     public Result<Borrow> borrowBook(@PathVariable Integer bookId, @Valid @RequestBody Borrow borrow) {
-        log.info("用户:{}借阅图书:{}",borrow.getUserId(), bookId);
-        borrow.setBookId(bookId);
-        borrowService.borrowBook(borrow);
-        return Result.success(borrow);
+        try {
+            log.info("用户:{}借阅图书:{}", borrow.getUserId(), bookId);
+            borrow.setBookId(bookId);
+            borrowService.borrowBook(borrow);
+            return Result.success(borrow);
+        } catch (Exception e) {
+            log.error("借阅图书失败", e);
+            return Result.fail("借阅图书失败: " + e.getMessage());
+        }
     }
 
     @PostMapping("/books/{bookId}/return")
     public Result<Borrow> returnBook(@PathVariable Integer bookId) {
-        log.info("归还图书{}", bookId);
-        Borrow borrow = borrowService.returnBook(bookId);
-        return Result.success(borrow);
+        try {
+            log.info("归还图书{}", bookId);
+            Borrow borrow = borrowService.returnBook(bookId);
+            return Result.success(borrow);
+        } catch (Exception e) {
+            log.error("归还图书失败", e);
+            return Result.fail("归还图书失败: " + e.getMessage());
+        }
     }
 
     @GetMapping("/users/{userId}/borrow-history")
     public Result<List<Borrow>> getBorrowHistory(@PathVariable String userId) {
-        log.info("查询用户{}的借阅历史", userId);
-        List<Borrow> history = borrowService.getBorrowHistory(userId);
-        return Result.success(history);
+        try {
+            log.info("查询用户{}的借阅历史", userId);
+            List<Borrow> history = borrowService.getBorrowHistory(userId);
+            return Result.success(history);
+        } catch (Exception e) {
+            log.error("获取借阅历史失败", e);
+            return Result.fail("获取借阅历史失败: " + e.getMessage());
+        }
     }
 }

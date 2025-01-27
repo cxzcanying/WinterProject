@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
+import java.io.Serializable;
+
 /**
  * @author 21311
  */
@@ -14,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 @NoArgsConstructor
 @AllArgsConstructor
 @Validated
-public class User {
+public class User implements Serializable {
 
     private Integer userId;
     @NotEmpty(message = "用户名不能为空")

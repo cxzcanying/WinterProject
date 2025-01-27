@@ -5,7 +5,10 @@ import com.cxzcanying.winterproject.mapper.UserMapper;
 import com.cxzcanying.winterproject.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,26 +19,31 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    @Cacheable(value = "users",key = "#userId")
     @Override
     public User getProfileById(String userId) {
         return userMapper.getProfileById(userId);
     }
 
+
+    @CacheEvict(value = "users", key = "#userId")
     @Override
     public void updateAvatarUrl(String userId, String avatarUrl) {
-        userMapper.updateAvatarUrl(userId,avatarUrl);
+        userMapper.updateAvatarUrl(userId, avatarUrl);
     }
 
     @Override
     public User login(String userName, String password) {
-        User user = userMapper.findByUsername(userName);
-        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
+        User user = userMapper.findByUserName(userName);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;
         }
         return null;
     }
-
+    @CacheEvict(value = "users" ,key = "#user.userId")
     @Override
     public void updateProfile(String userId, User user) {
         userMapper.updateProfile(userId,user);
@@ -43,12 +51,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void registerUser(User user) {
-        // Generate salt
-        String salt = BCrypt.gensalt();
-        // Hash password with salt
-        String hashedPassword = BCrypt.hashpw(user.getPassword(), salt);
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        user.setSalt(salt);
-        userMapper.insertUser(user);
+        userMapper.registerUser(user);
     }
 }

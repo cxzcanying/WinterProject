@@ -1,8 +1,8 @@
 package com.cxzcanying.winterproject.pojo;
 
-import com.cxzcanying.winterproject.exception.DuplicateISBNException;
+import com.cxzcanying.winterproject.exception.DuplicateIsbnException;
 import com.cxzcanying.winterproject.exception.ResourceNotFoundException;
-import com.cxzcanying.winterproject.exception.ValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author 21311
  */
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -31,9 +30,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateISBNException.class)
+    @ExceptionHandler(DuplicateIsbnException.class)
     @ResponseBody
-    public ResponseEntity<Result<?>> handleDuplicateISBNException(DuplicateISBNException ex) {
+    public ResponseEntity<Result<?>> handleDuplicateISBNException(DuplicateIsbnException ex) {
         Result<?> result = Result.fail(ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
@@ -55,8 +54,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public ResponseEntity<Result<?>> handleException(Exception ex) {
-        Result<?> result = Result.fail(500, "Internal Server Error");
+    public ResponseEntity<Result<?>> handleException(Exception e) {
+        log.error("Internal Server Error", e);
+        Result<?> result = Result.fail(500, "Internal Server Error: " + e.getMessage());
         return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

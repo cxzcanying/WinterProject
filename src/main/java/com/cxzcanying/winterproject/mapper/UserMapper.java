@@ -42,4 +42,5 @@ public interface UserMapper {
      * @return User
      */
     User findByUserName(String userName);
+
 }

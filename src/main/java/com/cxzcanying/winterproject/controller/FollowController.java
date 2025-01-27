@@ -25,30 +25,56 @@ public class FollowController {
     //关注用户
 
     @PostMapping("/follow")
-    public void followUser(@PathVariable String userId, @Valid @RequestBody Follow follow){
-        followService.followUser(follow);
+    public Result<?> followUser(@PathVariable String userId, @Valid @RequestBody Follow follow) {
+        try {
+            log.info("用户{}关注用户", userId);
+            followService.followUser(follow);
+            return Result.success("关注成功");
+        } catch (Exception e) {
+            log.error("关注失败", e);
+            return Result.fail("关注失败: " + e.getMessage());
+        }
     }
 
     //取消关注
 
     @DeleteMapping("/unfollow/{followingId}")
-    public void unfollowUser(@PathVariable String followingId, @PathVariable String userId){
-        followService.unfollowUser(followingId,userId);
+    public Result<?> unfollowUser(@PathVariable String followingId, @PathVariable String userId) {
+        try {
+            log.info("用户{}取消关注用户{}", userId, followingId);
+            followService.unfollowUser(followingId, userId);
+            return Result.success("取消关注成功");
+        } catch (Exception e) {
+            log.error("取消关注失败", e);
+            return Result.fail("取消关注失败: " + e.getMessage());
+        }
     }
 
     //用户的粉丝
 
     @GetMapping("/followers")
-    public Result<List<String>> getFollowersById(@PathVariable String userId){
-        List<String> followers=followService.getFollowersById(userId);
-        return Result.success(followers);
+    public Result<List<String>> getFollowersById(@PathVariable String userId) {
+        try {
+            log.info("获取用户{}的粉丝列表", userId);
+            List<String> followers = followService.getFollowersById(userId);
+            return Result.success(followers);
+        } catch (Exception e) {
+            log.error("获取粉丝列表失败", e);
+            return Result.fail("获取粉丝列表失败: " + e.getMessage());
+        }
     }
 
     //用户的关注
 
     @GetMapping("/following")
-    public Result<List<String>> getFollowingById(@PathVariable String userId){
-        List<String> following=followService.getFollowingById(userId);
-        return Result.success(following);
+    public Result<List<String>> getFollowingById(@PathVariable String userId) {
+        try {
+            log.info("获取用户{}的关注列表", userId);
+            List<String> following = followService.getFollowingById(userId);
+            return Result.success(following);
+        } catch (Exception e) {
+            log.error("获取关注列表失败", e);
+            return Result.fail("获取关注列表失败: " + e.getMessage());
+        }
     }
 }

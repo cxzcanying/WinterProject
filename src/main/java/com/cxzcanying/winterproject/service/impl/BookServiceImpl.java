@@ -3,7 +3,7 @@ package com.cxzcanying.winterproject.service.impl;
 import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.BookSearchRequest;
 import com.cxzcanying.winterproject.entity.Borrow;
-import com.cxzcanying.winterproject.exception.DuplicateISBNException;
+import com.cxzcanying.winterproject.exception.DuplicateIsbnException;
 import com.cxzcanying.winterproject.mapper.BookMapper;
 import com.cxzcanying.winterproject.mapper.BorrowMapper;
 import com.cxzcanying.winterproject.mapper.FavoriteMapper;
@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
 
 
 /**
@@ -42,10 +40,17 @@ public class BookServiceImpl implements BookService {
     public void addBook(Book book) {
         Book bookCheck = bookMapper.getBookByIsbn(book.getIsbn());
         if(bookCheck != null){
-            throw  new DuplicateISBNException(400,"ISBN已存在");
+            throw  new DuplicateIsbnException(400,"ISBN已存在");
         }
             bookMapper.addByName(book);
     }
+
+/*
+    @Cacheable(value/cacheNames 指定缓存名字,key 指定缓存的键,keyGenerator 指定自定义的缓存键生成器,
+    condition 指定缓存的条件。只有当条件为 true 时，才会缓存方法的返回值,unless 指定不缓存的条件。当条件为 true 时，不会缓存方法的返回值,
+    sync 指定是否同步缓存操作多个线程同时调用该方法时，只有一个线程会执行方法体，其他线程会等待缓存结果,
+    cacheManager 指定使用的缓存管理器,cacheResolver 指定自定义的缓存解析器)
+*/
 
     @Cacheable(value = "books", key = "#id")
     @Override
@@ -58,6 +63,7 @@ public class BookServiceImpl implements BookService {
     public void updateBookById(Book book) {
         bookMapper.updateBookById(book);
     }
+
 
     @Override
     public void deleteBookById(Integer id) {

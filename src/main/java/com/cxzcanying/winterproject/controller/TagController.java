@@ -25,29 +25,50 @@ public class TagController {
 
     @PostMapping("/books/{bookId}/tags")
     public Result<Tag> addTag(@PathVariable Integer bookId, @Valid @RequestBody Tag tag) {
-        log.info("为图书{}添加标签", bookId);
-        tag.setBookId(bookId);
-        tagService.addTag(tag);
-        return Result.success(tag);
+        try {
+            log.info("为图书{}添加标签", bookId);
+            tag.setBookId(bookId);
+            tagService.addTag(tag);
+            return Result.success(tag);
+        } catch (Exception e) {
+            log.error("添加标签失败", e);
+            return Result.fail("添加标签失败: " + e.getMessage());
+        }
     }
 
     @GetMapping("/books/{bookId}/tags")
     public Result<List<Tag>> getBookTags(@PathVariable Integer bookId) {
-        List<Tag> tags = tagService.getTagsByBookId(bookId);
-        log.info("获取图书{}的标签列表tags{}", bookId,tags);
-        return Result.success(tags);
+        try {
+            List<Tag> tags = tagService.getTagsByBookId(bookId);
+            log.info("获取图书{}的标签列表tags{}", bookId, tags);
+            return Result.success(tags);
+        } catch (Exception e) {
+            log.error("获取标签列表失败", e);
+            return Result.fail("获取标签列表失败: " + e.getMessage());
+        }
     }
 
     @GetMapping("/tags/{tagId}/books")
-    public Result<List<Book>> getBooksByTagId(@PathVariable String tagId){
-        log.info("获取TagID为{}的图书列表",tagId);
-        List<Book> books = tagService.getBooksByTagId(tagId);
-        return Result.success(books);
+    public Result<List<Book>> getBooksByTagId(@PathVariable String tagId) {
+        try {
+            log.info("获取TagID为{}的图书列表", tagId);
+            List<Book> books = tagService.getBooksByTagId(tagId);
+            return Result.success(books);
+        } catch (Exception e) {
+            log.error("获取图书列表失败", e);
+            return Result.fail("获取图书列表失败: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/books/{bookId}/tags/{tagId}")
-    public void deleteTag(@PathVariable Integer bookId, @PathVariable Integer tagId) {
-        log.info("删除图书{}的标签{}", bookId, tagId);
-        tagService.deleteTag(tagId);
+    public Result<?> deleteTag(@PathVariable Integer bookId, @PathVariable Integer tagId) {
+        try {
+            log.info("删除图书{}的标签{}", bookId, tagId);
+            tagService.deleteTag(tagId);
+            return Result.success("删除标签成功");
+        } catch (Exception e) {
+            log.error("删除标签失败", e);
+            return Result.fail("删除标签失败: " + e.getMessage());
+        }
     }
 }
