@@ -2,7 +2,9 @@ package com.cxzcanying.winterproject.controller;
 
 import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.BookSearchRequest;
+import com.cxzcanying.winterproject.entity.OperationLog;
 import com.cxzcanying.winterproject.exception.ResourceNotFoundException;
+import com.cxzcanying.winterproject.mapper.OperationLogMapper;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.BookService;
 
@@ -25,6 +27,9 @@ import java.util.List;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private OperationLogMapper operationLogMapper;
 
     @PostMapping(produces = "application/json")
     public Result<Book> addBook(@Valid @RequestBody Book book){
@@ -213,6 +218,18 @@ public class BookController {
         } catch (Exception e) {
             log.error("搜索图书失败", e);
             return Result.fail("搜索图书失败: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/logs")
+    public Result<List<OperationLog>> getAllOperationLogs() {
+        try {
+            log.info("获取所有操作日志");
+            List<OperationLog> logs = operationLogMapper.getAllOperationLog();
+            return Result.success(logs);
+        } catch (Exception e) {
+            log.error("获取操作日志失败", e);
+            return Result.fail("获取操作日志失败: " + e.getMessage());
         }
     }
 }
