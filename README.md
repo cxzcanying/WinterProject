@@ -97,7 +97,9 @@ WinterProject
 ### 用户认证与授权
 - **用户注册**：`POST /api/users/register`
 - **用户登录**：`POST /api/users/login`
-- **获取用户信息**：`GET /api/users/me`
+- **获取用户信息**：`GET /api/users/{userId}/profile`
+- **更新用户资料**：`PUT /api/users/{userId}/update`
+
 
 ### 图书管理
 - **添加图书**：`POST /api/books`
@@ -119,6 +121,7 @@ WinterProject
 ### 图书统计
 - **按分类统计图书数量**：`GET /api/books/stats/category`
 - **按出版年份统计图书数量**：`GET /api/books/stats/year`
+- **按作者统计图书数量**：`GET /api/books/stats/author/{author}`
 
 ### 高级搜索与智能推荐
 - **高级搜索**：`GET /api/books/advanced-search?title=Java&author=AuthorName`
@@ -152,6 +155,12 @@ WinterProject
 - **借阅图书**：`POST /api/books/{bookId}/borrow`
 - **归还图书**：`POST /api/books/{bookId}/return`
 - **查看借阅历史**：`GET /api/users/{userId}/borrow-history`
+
+### 文件上传
+- **上传头像**：`POST /api/users/{userId}/update/upload`
+
+### 查看日志
+- **获取全部日志**`GET /api/books/logs`
 
 ## 异常处理
 - **资源未找到**：返回 `404 Not Found`

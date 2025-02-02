@@ -2248,3 +2248,94 @@ DELETE /api/users/{userId}/favorites/{bookId}
 |message|string|false|none||none|
 |data|[Favorite](#schemafavorite)|false|none||none|
 
+## GET getAllOperationLogs
+
+GET /api/books/logs
+
+> 返回示例
+
+```json
+{
+  "code": 0,
+  "message": "",
+  "data": [
+    {
+      "id": 0,
+      "operationName": "",
+      "startTime": "",
+      "endTime": "",
+      "duration": 0
+    }
+  ]
+}
+```
+
+### 返回结果
+
+|状态码|状态码含义|说明|数据模型|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[ResultListOperationLog](#schemaresultlistoperationlog)|
+
+# 数据模型
+
+<h2 id="tocS_OperationLog">OperationLog</h2>
+
+<a id="schemaoperationlog"></a>
+<a id="schema_OperationLog"></a>
+<a id="tocSoperationlog"></a>
+<a id="tocsoperationlog"></a>
+
+```json
+{
+  "id": 0,
+  "operationName": "string",
+  "startTime": "string",
+  "endTime": "string",
+  "duration": 0
+}
+
+```
+
+### 属性
+
+|名称|类型|必选|约束|中文名|说明|
+|---|---|---|---|---|---|
+|id|integer|false|none||none|
+|operationName|string|false|none||none|
+|startTime|string|false|none||none|
+|endTime|string|false|none||none|
+|duration|integer|false|none||none|
+
+<h2 id="tocS_ResultListOperationLog">ResultListOperationLog</h2>
+
+<a id="schemaresultlistoperationlog"></a>
+<a id="schema_ResultListOperationLog"></a>
+<a id="tocSresultlistoperationlog"></a>
+<a id="tocsresultlistoperationlog"></a>
+
+```json
+{
+  "code": 0,
+  "message": "string",
+  "data": [
+    {
+      "id": 0,
+      "operationName": "string",
+      "startTime": "string",
+      "endTime": "string",
+      "duration": 0
+    }
+  ]
+}
+
+```
+
+### 属性
+
+|名称|类型|必选|约束|中文名|说明|
+|---|---|---|---|---|---|
+|code|integer|false|none||none|
+|message|string|false|none||none|
+|data|[[OperationLog](#schemaoperationlog)]|false|none||none|
+
+
