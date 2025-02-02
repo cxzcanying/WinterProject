@@ -27,8 +27,6 @@ import java.util.Set;
 @Slf4j
 @Service
 public class BookServiceImpl implements BookService {
-    //每一行都要注解
-
     @Autowired
     private BookMapper bookMapper;
     @Autowired

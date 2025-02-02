@@ -1,8 +1,10 @@
 package com.cxzcanying.winterproject.controller;
 
+import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.BookSearchRequest;
 import com.cxzcanying.winterproject.entity.OperationLog;
+import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.exception.ResourceNotFoundException;
 import com.cxzcanying.winterproject.mapper.OperationLogMapper;
 import com.cxzcanying.winterproject.pojo.Result;
@@ -12,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -183,6 +186,7 @@ public class BookController {
     }
 
     @GetMapping("/recommendations")
+    @RequiresRole(Roles.ROLE_USER)
     public Result<List<Book>> getRecommendations(@RequestParam String userId) {
         try {
             log.info("为用户{}推荐图书", userId);
@@ -222,6 +226,7 @@ public class BookController {
     }
 
     @GetMapping("/logs")
+    @RequiresRole(Roles.ROLE_ADMIN)
     public Result<List<OperationLog>> getAllOperationLogs() {
         try {
             log.info("获取所有操作日志");

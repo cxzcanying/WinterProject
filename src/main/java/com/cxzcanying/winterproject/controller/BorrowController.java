@@ -1,6 +1,8 @@
 package com.cxzcanying.winterproject.controller;
 
+import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.Borrow;
+import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.BorrowService;
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ public class BorrowController {
     private BorrowService borrowService;
 
     @PostMapping("/books/{bookId}/borrow")
+    @RequiresRole(Roles.ROLE_USER)
     public Result<Borrow> borrowBook(@PathVariable Integer bookId, @Valid @RequestBody Borrow borrow) {
         try {
             log.info("用户:{}借阅图书:{}", borrow.getUserId(), bookId);
@@ -37,6 +40,7 @@ public class BorrowController {
     }
 
     @PostMapping("/books/{bookId}/return")
+    @RequiresRole(Roles.ROLE_USER)
     public Result<Borrow> returnBook(@PathVariable Integer bookId) {
         try {
             log.info("归还图书{}", bookId);
@@ -49,6 +53,7 @@ public class BorrowController {
     }
 
     @GetMapping("/users/{userId}/borrow-history")
+    @RequiresRole(Roles.ROLE_USER)
     public Result<List<Borrow>> getBorrowHistory(@PathVariable String userId) {
         try {
             log.info("查询用户{}的借阅历史", userId);

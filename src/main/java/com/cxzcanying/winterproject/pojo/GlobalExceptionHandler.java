@@ -41,7 +41,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public String paramExceptionHandler(MethodArgumentNotValidException e) {
         BindingResult exceptions = e.getBindingResult();
-        // 判断异常中是否有错误信息，如果存在就使用异常中的消息，否则使用默认消息
         if (exceptions.hasErrors()) {
             List<ObjectError> errors = exceptions.getAllErrors();
             if (!errors.isEmpty()) {
@@ -59,4 +58,5 @@ public class GlobalExceptionHandler {
         Result<?> result = Result.fail(500, "Internal Server Error: " + e.getMessage());
         return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

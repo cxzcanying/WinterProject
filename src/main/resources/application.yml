@@ -4,12 +4,46 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 2
-      idle-timeout: 30000
-      max-lifetime: 1800000
-      connection-timeout: 30000
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 连接池的初始大小、最小空闲连接数、最大活跃连接数
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      # 配置获取连接等待超时的时间（毫秒）
+      max-wait: 60000
+        # 配置间隔多久检测一次空闲连接（毫秒）
+      time-between-eviction-runs-millis: 60000
+
+        # 配置一个连接在池中最小生存的时间（毫秒）
+      min-evictable-idle-time-millis: 300000
+
+        # 检测连接是否有效的SQL
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+
+        # 是否缓存PreparedStatement
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+
+        # 配置监控统计功能
+      stat-view-servlet:
+        enabled: true # 启用StatViewServlet
+        url-pattern: /druid/* # 监控页面的访问路径
+        login-username: admin # 监控页面的登录用户名
+        login-password: admin # 监控页面的登录密码
+        reset-enable: false # 禁用重置功能
+
+        # 配置Web监控过滤器
+        web-stat-filter:
+          enabled: true # 启用WebStatFilter
+          url-pattern: /* # 过滤所有URL
+          exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" # 排除静态资源和监控页面
+
+        # 配置监控统计的过滤器
+        filters: stat,wall,slf4j
   servlet:
     multipart:
       max-file-size: 10MB
@@ -27,10 +61,13 @@ mybatis:
     map-underscore-to-camel-case: true
 #设置输出日志级别
 logging:
- level:
-   org.springframework.web: INFO
-   org.mybatis: INFO
-   com.cxzcanying.winterproject: DEBUG
+  level:
+    org.springframework.web: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+    org.mybatis: INFO
+    com.cxzcanying.winterproject: DEBUG
 #阿里云OSS配置
 aliyun:
   oss:

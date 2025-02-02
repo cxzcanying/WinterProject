@@ -3,6 +3,7 @@ package com.cxzcanying.winterproject.service.impl;
 import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.Tag;
 import com.cxzcanying.winterproject.mapper.TagMapper;
+import com.cxzcanying.winterproject.pojo.XSSUtils;
 import com.cxzcanying.winterproject.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void addTag(Tag tag) {
+        String safeTagName = XSSUtils.escapeHtml(tag.getName());
+        tag.setName(safeTagName);
         tag.setCreateTime(LocalDateTime.now());
         tagMapper.addTag(tag);
         tagMapper.addBookTag(tag.getBookId(),tag.getId(),tag.getUserId());

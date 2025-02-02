@@ -34,7 +34,6 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<Review> getReviewsByBookId(Integer bookId) {
         List<Review> reviews = reviewMapper.getReviewsByBookId(bookId);
-        // 递归获取每条评论的所有回复
         reviews.forEach(review -> {
             List<Review> replies = getRepliesRecursive(review.getId());
             review.setReplies(replies);

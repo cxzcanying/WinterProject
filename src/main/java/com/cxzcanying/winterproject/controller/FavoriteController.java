@@ -1,7 +1,9 @@
 package com.cxzcanying.winterproject.controller;
 
+import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.Favorite;
+import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.FavoriteService;
 import jakarta.validation.Valid;
@@ -26,6 +28,7 @@ public class FavoriteController {
     private FavoriteService favoriteService;
 
     @PostMapping
+    @RequiresRole(Roles.ROLE_USER)
     public Result<Favorite> addFavorite(@PathVariable String userId, @Valid @RequestBody Favorite favorite) {
         try {
             log.info("用户{}添加收藏图书", userId);
@@ -40,6 +43,7 @@ public class FavoriteController {
     }
 
     @GetMapping
+    @RequiresRole(Roles.ROLE_USER)
     public Result<List<Book>> getFavorites(@PathVariable String userId) {
         try {
             log.info("获取用户{}的收藏列表", userId);
@@ -52,6 +56,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{bookId}")
+    @RequiresRole(Roles.ROLE_USER)
     public Result<?> deleteFavorite(@PathVariable String userId, @PathVariable Integer bookId) {
         try {
             log.info("用户{}删除收藏图书{}", userId, bookId);

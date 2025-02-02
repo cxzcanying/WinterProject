@@ -1,6 +1,8 @@
 package com.cxzcanying.winterproject.controller;
 
 
+import com.cxzcanying.winterproject.annotation.RequiresRole;
+import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.pojo.AliOSSUtils;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.UserService;
@@ -13,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/**
+ * @author 21311
+ */
 @Slf4j
 @RestController
 public class UploadController {
@@ -23,6 +28,7 @@ public class UploadController {
     private UserService userService;
 
     @PostMapping("/api/users/{userId}/avatar")
+    @RequiresRole(Roles.ROLE_USER)
     public Result<String> uploadAvatar(MultipartFile image, @PathVariable String userId) {
         try {
             log.info("ID为{}的用户上传,文件名:{}", userId, image.getOriginalFilename());

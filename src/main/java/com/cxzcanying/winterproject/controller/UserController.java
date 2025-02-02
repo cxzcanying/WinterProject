@@ -1,7 +1,10 @@
 package com.cxzcanying.winterproject.controller;
 
+import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.LoginRequest;
+import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.entity.User;
+import com.cxzcanying.winterproject.pojo.JwtUtil;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.UserService;
 import jakarta.validation.Valid;
@@ -23,6 +26,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public Result<?> registerUser(@Valid @RequestBody User user) {
@@ -49,6 +54,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/update")
+    @RequiresRole(Roles.ROLE_USER)
     public Result<User> updateProfile(@PathVariable String userId,@Valid @RequestBody User user){
         try {
             log.info("ID为{}的用户更新了个人资料{}",userId,user);
@@ -61,18 +67,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Result<User> login(@Valid @RequestBody LoginRequest loginRequest) {
-        try {
-            log.info("用户{}尝试登录", loginRequest.getUserName());
-            User user = userService.login(loginRequest.getUserName(), loginRequest.getPassword());
-            if (user != null) {
-                return Result.success(user);
-            } else {
-                return Result.fail("用户名或密码错误");
-            }
-        } catch (Exception e) {
-            log.error("登录失败", e);
-            return Result.fail("登录失败: " + e.getMessage());
+    public Result<String> login(@Valid @RequestBody LoginRequest loginRequest) {
+    try {
+        log.info("用户{}尝试登录", loginRequest.getUserName());
+        User user = userService.login(loginRequest.getUserName(), loginRequest.getPassword());
+        if (user != null) {
+            String role = user.getIsAdmin() ? "ROLE_ADMIN" : "ROLE_USER";
+            String token = jwtUtil.generateToken(user.getUserName(), role);
+            return Result.success(token);
+        } else {
+            return Result.fail("用户名或密码错误");
         }
+    } catch (Exception e) {
+        log.error("登录失败", e);
+        return Result.fail("登录失败: " + e.getMessage());
     }
+}
 }
