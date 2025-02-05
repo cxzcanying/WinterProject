@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching//启用Redis缓存
 @EnableAspectJAutoProxy//启用切面编程AOP
 @EnableScheduling//启用定时任务功能
+
 @EnableConfigurationProperties(DruidConfig.class)
 public class WinterProjectApplication {
 
