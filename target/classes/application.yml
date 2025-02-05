@@ -71,7 +71,7 @@ logging:
 #阿里云OSS配置
 aliyun:
   oss:
-    endpoint: https://oss-cn-chengdu.aliyuncs.com
-    accessKeyId: LTAI5tAae5c33H8pTCMRq5g4
-    accessKeySecret: S6xVr2LWsf5yEXtd1lUqIZ5szJNQNo
-    bucketName: springbot
+    endpoint: endpoint
+    accessKeyId: accessKeyId
+    accessKeySecret: accessKeySecret
+    bucketName: bucketName
