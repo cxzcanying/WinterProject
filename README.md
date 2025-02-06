@@ -29,7 +29,7 @@ WinterProject
 
 ## 技术栈
 - **后端框架**：Spring Boot, MyBatis
-- **数据库**：MySQL, Druid
+- **数据库**：MySQL
 - **缓存**：Redis
 - **认证与授权**：JWT, Spring Security
 - **日志**：Logback, Spring Boot Logging
@@ -131,14 +131,12 @@ WinterProject
 ### 实现 JWT 认证
 - 使用 JWT 实现无状态的认证机制。
 
-### 添加数据库连接池 Druid 配置用来防御 SQL 注入
-- 配置 Druid 数据库连接池，并使用其防 SQL 注入功能。
-
 ### 添加 XSS 防护
 - 使用自定义过滤器防止 XSS 攻击。
 
 ## 快速启动
-调整docker-compose.yml参数后运行`docker-compose up`
+调整docker-compose.yml参数后运行`docker-compose up`  
+
 本项目基于JDK18开发
 
 ## API 接口介绍
