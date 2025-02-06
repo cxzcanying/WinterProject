@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  java-app:
+    image: openjdk:18
+    volumes:
+      - C:\Users\21311\Desktop\work\mall\WinterProject\target:/app  # 将当前项目目录挂载到容器内的 /app 目录
+    working_dir: /app  # 设置工作目录
+    command: java -jar WinterProject-0.0.1-SNAPSHOT.jar  # 替换为你的项目启动命令
+    ports:
+      - "8080:8080"  # 替换为你的应用端口
