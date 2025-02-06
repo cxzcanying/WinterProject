@@ -134,7 +134,9 @@ WinterProject
 ### 添加 XSS 防护
 - 使用自定义过滤器防止 XSS 攻击。
 
-## 快速启动
+## 快速启动  
+在项目根目录运行`mvn package`  
+
 调整docker-compose.yml参数后运行`docker-compose up`  
 
 本项目基于JDK18开发
