@@ -40,6 +40,7 @@ WinterProject
 - **参数验证**：Spring Boot Validation
 - **分页**：PageHelper
 - **其他工具**：Lombok, JAXB, Spring Boot Actuator, Aliyun OSS Utils
+- **容器化工具**：Docker
 
 ## 项目功能
 
@@ -135,6 +136,10 @@ WinterProject
 
 ### 添加 XSS 防护
 - 使用自定义过滤器防止 XSS 攻击。
+
+## 快速启动
+调整docker-compose.yml参数后运行`docker-compose up`
+本项目基于JDK18开发
 
 ## API 接口介绍
 
