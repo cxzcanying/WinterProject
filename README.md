@@ -24,6 +24,9 @@ WinterProject
 │   ├── sql                                      # Sql语句
 │   └── com/cxzcanying/winterproject/mapper      # MyBatis 映射文件
 ├── src/test                                     # 测试代码
+├── docker-compose.yml                           # Docker-Compose配置文件
+├── README.md                                    # 项目介绍
+├── API文档.md                                    # API规范文档
 └── pom.xml                                      # Maven 配置文件
 ````
 
