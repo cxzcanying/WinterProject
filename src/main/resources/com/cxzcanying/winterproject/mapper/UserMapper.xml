@@ -8,7 +8,7 @@
 
     <update id="updateProfile">
         UPDATE user
-        SET user_name=#{userName},password=#{password},sex=#{sex},birth_date=#{birthDate}
+        SET user_name=#{user.userName},password=#{user.password},sex=#{user.sex},birth_date=#{user.birthDate}
         WHERE user_id=#{userId}
     </update>
 
@@ -19,7 +19,7 @@
     </update>
 
     <select id="getProfileById" resultType="com.cxzcanying.winterproject.entity.User">
-        SELECT user_id, user_name, password, sex, birth_date, is_admin,avatar_url
+        SELECT user_id, user_name, sex, birth_date, is_admin,avatar_url
         FROM user
         WHERE user_id = #{userId}
     </select>

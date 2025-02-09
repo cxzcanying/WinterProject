@@ -5,7 +5,6 @@ import com.cxzcanying.winterproject.pojo.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletRequestWrapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +17,9 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import java.io.IOException;
 
+/**
+ * @author 21311
+ */
 @Slf4j
 @Component
 public class AuthFilter extends OncePerRequestFilter {
@@ -33,7 +35,7 @@ public class AuthFilter extends OncePerRequestFilter {
 protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
         throws ServletException, IOException {
 
-    // 放行注册和登录接口
+
     String requestURI = request.getRequestURI();
         log.info("Request URI: {}", requestURI);
     if ("/api/users/login".equals(requestURI) || "/api/users/register".equals(requestURI)) {
@@ -41,7 +43,6 @@ protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServlet
         return;
     }
 
-    // 获取 Token
     String header = request.getHeader("Authorization");
     if (header == null || !header.startsWith("Bearer ")) {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -49,7 +50,6 @@ protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServlet
         return;
     }
 
-    // 解析 Token
     String token = header.substring(7);
     if (!JwtUtil.isTokenValid(token)) {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -57,10 +57,8 @@ protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServlet
         return;
     }
 
-    // 获取角色
     String role = JwtUtil.getRoleFromToken(token);
 
-    // 获取目标方法的注解
     RequiresRole requiresRole = getAnnotationFromRequest(request);
     if (requiresRole != null) {
         if (!role.equals(requiresRole.value())) {
@@ -70,7 +68,6 @@ protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServlet
         }
     }
 
-    // 放行
     filterChain.doFilter(request, response);
 }
 

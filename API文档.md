@@ -1205,7 +1205,7 @@ DELETE /api/books/{bookId}/reviews/{reviewId}
 
 ## POST uploadAvatar
 
-POST /api/users/{userId}/update/upload
+POST /api/users/{userId}/avatar
 
 > Body 请求参数
 

@@ -1,8 +1,6 @@
 package com.cxzcanying.winterproject.controller;
 
-import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.Follow;
-import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.FollowService;
 import jakarta.validation.Valid;
@@ -27,7 +25,6 @@ public class FollowController {
     //关注用户
 
     @PostMapping("/follow")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<?> followUser(@PathVariable String userId, @Valid @RequestBody Follow follow) {
         try {
             log.info("用户{}关注用户", userId);
@@ -42,7 +39,6 @@ public class FollowController {
     //取消关注
 
     @DeleteMapping("/unfollow/{followingId}")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<?> unfollowUser(@PathVariable String followingId, @PathVariable String userId) {
         try {
             log.info("用户{}取消关注用户{}", userId, followingId);

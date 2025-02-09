@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -26,7 +25,6 @@ public class BorrowController {
     private BorrowService borrowService;
 
     @PostMapping("/books/{bookId}/borrow")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<Borrow> borrowBook(@PathVariable Integer bookId, @Valid @RequestBody Borrow borrow) {
         try {
             log.info("用户:{}借阅图书:{}", borrow.getUserId(), bookId);
@@ -40,7 +38,6 @@ public class BorrowController {
     }
 
     @PostMapping("/books/{bookId}/return")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<Borrow> returnBook(@PathVariable Integer bookId) {
         try {
             log.info("归还图书{}", bookId);

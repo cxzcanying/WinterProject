@@ -1,8 +1,6 @@
 package com.cxzcanying.winterproject.controller;
 
-import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.Review;
-import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.ReviewService;
 import jakarta.validation.Valid;
@@ -25,7 +23,6 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping
-    @RequiresRole(Roles.ROLE_USER)
     public Result<Review> addReview(@PathVariable Integer bookId, @Valid @RequestBody Review review) {
         try {
             log.info("为图书{}添加评论{}", bookId, review);
@@ -39,7 +36,6 @@ public class ReviewController {
     }
 
     @GetMapping
-    @RequiresRole(Roles.ROLE_USER)
     public Result<List<Review>> getBookReviews(@PathVariable Integer bookId) {
         try {
             log.info("获取图书{}的评论列表", bookId);
@@ -52,7 +48,6 @@ public class ReviewController {
     }
 
     @PostMapping("/{reviewId}/replies")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<Review> replyToReview(@PathVariable Integer bookId, 
                                       @PathVariable Integer reviewId, 
                                       @Valid @RequestBody Review reply) {
@@ -69,7 +64,6 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewId}")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<?> deleteReview(@PathVariable Integer reviewId) {
         try {
             log.info("删除评论{}", reviewId);

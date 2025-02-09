@@ -43,12 +43,6 @@ public class BookServiceImpl implements BookService {
             bookMapper.addByName(book);
     }
 
-/*
-    @Cacheable(value/cacheNames 指定缓存名字,key 指定缓存的键,keyGenerator 指定自定义的缓存键生成器,
-    condition 指定缓存的条件。只有当条件为 true 时，才会缓存方法的返回值,unless 指定不缓存的条件。当条件为 true 时，不会缓存方法的返回值,
-    sync 指定是否同步缓存操作多个线程同时调用该方法时，只有一个线程会执行方法体，其他线程会等待缓存结果,
-    cacheManager 指定使用的缓存管理器,cacheResolver 指定自定义的缓存解析器)
-*/
 
     @Cacheable(value = "books", key = "#id")
     @Override

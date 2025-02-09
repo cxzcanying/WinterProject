@@ -17,7 +17,7 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class Favorite {
     private Integer id;
-    @NotEmpty(message = "用户ID不能为空")
+    @NotNull(message = "用户ID不能为空")
     private Integer userId;
     @NotNull(message = "图书ID不能为空")
     private Integer bookId;

@@ -1,3 +1,13 @@
+create table category
+(
+    id            int auto_increment comment '类别ID'
+        primary key,
+    category_name varchar(100) not null comment '类别名',
+    constraint category_name
+        unique (category_name)
+)
+    comment '类别表';
+
 create table book
 (
     id             mediumint unsigned auto_increment
@@ -9,24 +19,14 @@ create table book
     price          mediumint default 0      null comment '价格',
     category       int                      not null comment '类别',
     constraint book_pk
-        unique (isbn)
+        unique (isbn),
+    constraint book_category__fk
+        foreign key (category) references category (id)
 )
     comment '图书表';
 
 create index idx_category_id
     on book (category);
-
-create table category
-(
-    id            int auto_increment comment '类别ID'
-        primary key,
-    category_name varchar(100) not null comment '类别名',
-    constraint category_name
-        unique (category_name),
-    constraint category_category__fk
-        foreign key (id) references book (category)
-)
-    comment '类别表';
 
 create table operation_logs
 (
@@ -202,5 +202,4 @@ create index book_id
 
 create index user_id
     on user_history (user_id);
-
 

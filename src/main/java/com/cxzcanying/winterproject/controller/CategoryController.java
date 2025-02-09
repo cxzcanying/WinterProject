@@ -1,15 +1,11 @@
 package com.cxzcanying.winterproject.controller;
 
-import com.cxzcanying.winterproject.annotation.RequiresRole;
-import com.cxzcanying.winterproject.entity.Book;
 import com.cxzcanying.winterproject.entity.Category;
-import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +25,6 @@ public class CategoryController{
 
 
     @PostMapping
-    @RequiresRole(Roles.ROLE_ADMIN)
     public Result<Category> addCategory(@Valid @RequestBody Category category) {
         try {
             log.info("创建新分类:{}", category);
@@ -63,7 +58,6 @@ public class CategoryController{
         }
     }
     @PutMapping("/{id}")
-    @RequiresRole(Roles.ROLE_ADMIN)
     public Result<Category> updateCategoryById(@PathVariable Integer id,@Valid @RequestBody Category category) {
         try {
             log.info("更新id为{}分类的信息", id);
@@ -76,7 +70,6 @@ public class CategoryController{
         }
     }
     @DeleteMapping("/{id}")
-    @RequiresRole(Roles.ROLE_ADMIN)
     public Result<Category> deleteCategoryById(@PathVariable Integer id) {
         try {
             log.info("删除id为{}的分类", id);

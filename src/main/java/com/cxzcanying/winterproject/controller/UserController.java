@@ -1,8 +1,6 @@
 package com.cxzcanying.winterproject.controller;
 
-import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.LoginRequest;
-import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.entity.User;
 import com.cxzcanying.winterproject.pojo.JwtUtil;
 import com.cxzcanying.winterproject.pojo.Result;
@@ -54,7 +52,6 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/update")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<User> updateProfile(@PathVariable String userId,@Valid @RequestBody User user){
         try {
             log.info("ID为{}的用户更新了个人资料{}",userId,user);
@@ -72,7 +69,7 @@ public class UserController {
         log.info("用户{}尝试登录", loginRequest.getUserName());
         User user = userService.login(loginRequest.getUserName(), loginRequest.getPassword());
         if (user != null) {
-            String role = user.getIsAdmin() ? "ROLE_ADMIN" : "ROLE_USER";
+            String role = user.getIsAdmin() ? "ADMIN" : "USER";
             String token = jwtUtil.generateToken(user.getUserName(), role);
             return Result.success(token);
         } else {

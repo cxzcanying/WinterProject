@@ -104,12 +104,7 @@
         ORDER BY published_year DESC
         LIMIT 10
     </select>
-    <!--解析：DISTINCT去重,<foreach> 用于遍历集合或数组，并生成 SQL 语句的一部分
-    item="category": 定义当前遍历元素的变量名为 category
-    collection="categories": 指定要遍历的集合为 categories（通常是一个 List 或数组）
-    open="(": 在生成的 SQL 片段前添加一个左括号,close=")": 在生成的 SQL 片段后添加一个右括号,IN子句需要括号来包裹列表值
-    separator=",": 在每个元素之间添加逗号
-    #{category}: 将当前遍历的元素值插入到 SQL 中-->
+
 
     <select id="advancedSearchBook" resultType="com.cxzcanying.winterproject.entity.Book">
         SELECT id, title, isbn, author, published_year, price, category

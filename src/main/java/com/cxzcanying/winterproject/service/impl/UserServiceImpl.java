@@ -44,9 +44,10 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
-    @CacheEvict(value = "users" ,key = "#user.userId")
+    @CacheEvict(value = "users" ,key = "#userId")
     @Override
     public void updateProfile(String userId, User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userMapper.updateProfile(userId,user);
     }
 

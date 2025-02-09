@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  java-app:
+    image: openjdk:18
+    volumes:
+      - C:\Users\21311\Desktop\work\mall\WinterProject\target:/app
+    working_dir: /app
+    command: java -jar WinterProject-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8080:8080"

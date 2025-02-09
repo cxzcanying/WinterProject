@@ -1,8 +1,6 @@
 package com.cxzcanying.winterproject.controller;
 
-import com.cxzcanying.winterproject.annotation.RequiresRole;
 import com.cxzcanying.winterproject.entity.Book;
-import com.cxzcanying.winterproject.entity.Roles;
 import com.cxzcanying.winterproject.entity.Tag;
 import com.cxzcanying.winterproject.pojo.Result;
 import com.cxzcanying.winterproject.service.TagService;
@@ -26,7 +24,6 @@ public class TagController {
     private TagService tagService;
 
     @PostMapping("/books/{bookId}/tags")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<Tag> addTag(@PathVariable Integer bookId, @Valid @RequestBody Tag tag) {
         try {
             log.info("为图书{}添加标签", bookId);
@@ -40,7 +37,6 @@ public class TagController {
     }
 
     @GetMapping("/books/{bookId}/tags")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<List<Tag>> getBookTags(@PathVariable Integer bookId) {
         try {
             List<Tag> tags = tagService.getTagsByBookId(bookId);
@@ -53,7 +49,6 @@ public class TagController {
     }
 
     @GetMapping("/tags/{tagId}/books")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<List<Book>> getBooksByTagId(@PathVariable String tagId) {
         try {
             log.info("获取TagID为{}的图书列表", tagId);
@@ -66,7 +61,6 @@ public class TagController {
     }
 
     @DeleteMapping("/books/{bookId}/tags/{tagId}")
-    @RequiresRole(Roles.ROLE_USER)
     public Result<?> deleteTag(@PathVariable Integer bookId, @PathVariable Integer tagId) {
         try {
             log.info("删除图书{}的标签{}", bookId, tagId);

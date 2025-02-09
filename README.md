@@ -24,12 +24,15 @@ WinterProject
 │   ├── sql                                      # Sql语句
 │   └── com/cxzcanying/winterproject/mapper      # MyBatis 映射文件
 ├── src/test                                     # 测试代码
+├── docker-compose.yml                           # Docker-Compose配置文件
+├── README.md                                    # 项目介绍
+├── API文档.md                                    # API规范文档
 └── pom.xml                                      # Maven 配置文件
 ````
 
 ## 技术栈
 - **后端框架**：Spring Boot, MyBatis
-- **数据库**：MySQL, Druid
+- **数据库**：MySQL
 - **缓存**：Redis
 - **认证与授权**：JWT, Spring Security
 - **日志**：Logback, Spring Boot Logging
@@ -40,6 +43,7 @@ WinterProject
 - **参数验证**：Spring Boot Validation
 - **分页**：PageHelper
 - **其他工具**：Lombok, JAXB, Spring Boot Actuator, Aliyun OSS Utils
+- **容器化工具**：Docker
 
 ## 项目功能
 
@@ -130,11 +134,15 @@ WinterProject
 ### 实现 JWT 认证
 - 使用 JWT 实现无状态的认证机制。
 
-### 添加数据库连接池 Druid 配置用来防御 SQL 注入
-- 配置 Druid 数据库连接池，并使用其防 SQL 注入功能。
-
 ### 添加 XSS 防护
 - 使用自定义过滤器防止 XSS 攻击。
+
+## 快速启动
+在项目根目录运行`mvn package`
+
+调整docker-compose.yml参数后运行`docker-compose up`
+
+本项目基于JDK18开发
 
 ## API 接口介绍
 
@@ -201,7 +209,7 @@ WinterProject
 - **查看借阅历史**：`GET /api/users/{userId}/borrow-history`
 
 ### 文件上传
-- **上传头像**：`POST /api/users/{userId}/update/upload`
+- **上传头像**：`POST /api/users/{userId}/avatar`
 
 ### 查看日志
 - **获取全部日志**`GET /api/books/logs`

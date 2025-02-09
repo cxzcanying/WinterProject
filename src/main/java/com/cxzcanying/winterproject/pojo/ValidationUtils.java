@@ -2,6 +2,9 @@ package com.cxzcanying.winterproject.pojo;
 
 import com.cxzcanying.winterproject.exception.ValidationException;
 
+/**
+ * @author 21311
+ */
 public class ValidationUtils {
 
     // 验证字符串是否为空
