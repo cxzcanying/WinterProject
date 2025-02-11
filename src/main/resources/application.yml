@@ -35,3 +35,5 @@ aliyun:
     accessKeyId: accessKeyId
     accessKeySecret: accessKeySecret
     bucketName: bucketName
+jwt:
+  secret-key: <your-secret-key>
