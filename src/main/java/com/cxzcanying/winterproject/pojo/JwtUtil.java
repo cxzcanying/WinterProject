@@ -13,6 +13,9 @@ import java.nio.charset.StandardCharsets; // 引入 StandardCharsets
 import java.security.Key;
 import java.util.Date;
 
+/**
+ * @author 21311
+ */
 @Slf4j
 @Component
 public class JwtUtil {

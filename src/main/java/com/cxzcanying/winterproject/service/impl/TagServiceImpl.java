@@ -7,6 +7,7 @@ import com.cxzcanying.winterproject.pojo.XSSUtils;
 import com.cxzcanying.winterproject.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,8 +35,10 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteTag(Integer tagId) {
-        tagMapper.deleteTag(tagId);
+        tagMapper.deleteBookTagByTagId(tagId);
+        tagMapper.deleteTagById(tagId);
     }
 
 

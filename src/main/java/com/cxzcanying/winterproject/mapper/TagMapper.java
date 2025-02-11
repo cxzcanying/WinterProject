@@ -45,4 +45,16 @@ public interface TagMapper {
      * @return List<Book>
      */
     List<Book> getBooksByTagId(String tagId);
+
+    /**
+     * 删除图书标签
+     * @param tagId
+     */
+    void deleteBookTagByTagId(Integer tagId);
+
+    /**
+     * 删除标签
+     * @param tagId
+     */
+    void deleteTagById(Integer tagId);
 }

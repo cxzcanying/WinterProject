@@ -1,5 +1,6 @@
 package com.cxzcanying.winterproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,6 @@ public class Tag {
     private String userId;
     @NotNull(message = "图书ID不能为空")
     private Integer bookId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 }

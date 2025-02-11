@@ -26,6 +26,7 @@
           <option value="WinterProject" />
           <option value="WinterProject" />
           <option value="WinterProject" />
+          <option value="WinterProject" />
         </list>
       </option>
       <option name="ignoredPackages">
@@ -33,10 +34,12 @@
           <option value="ch.qos.logback:logback-core:1.5.12" />
           <option value="commons-io:commons-io:2.11.0" />
           <option value="io.github.classgraph:classgraph:4.8.83" />
+          <option value="net.minidev:json-smart:2.5.1" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />
           <option value="不可利用" />

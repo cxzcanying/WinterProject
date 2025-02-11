@@ -1,5 +1,6 @@
 package com.cxzcanying.winterproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class Follow {
     private Integer followerId;
     @NotNull(message = "ID不能为空")
     private Integer followingId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date followTime;
 }
 

@@ -1,5 +1,6 @@
 package com.cxzcanying.winterproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,7 +34,8 @@ public class Review {
     @Min(value = 1, message = "评分最小为1")
     @Max(value = 5, message = "评分最大为5")
     private Integer rating;
-    
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
     
     private Integer parentId;

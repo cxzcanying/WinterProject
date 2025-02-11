@@ -1,5 +1,6 @@
 package com.cxzcanying.winterproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -25,11 +26,14 @@ public class Borrow {
     
     @NotNull(message = "图书ID不能为空")
     private Integer bookId;
-    
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime borrowTime;
-    
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dueTime;
-    
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime returnTime;
     
     @Pattern(regexp = "^(BORROWED|RETURNED|OVERDUE)$", message = "状态值不正确")
