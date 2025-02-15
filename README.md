@@ -41,7 +41,7 @@ WinterProject
 - **单元测试**：JUnit
 - **参数验证**：Spring Boot Validation
 - **分页**：PageHelper
-- **其他工具**：Lombok,Aliyun OSS Utils
+- **其他工具**：Lombok, Aliyun OSS Utils, Apifox
 - **容器化工具**：Docker
 
 ## 项目功能
