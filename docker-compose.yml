@@ -4,8 +4,24 @@ services:
   java-app:
     image: openjdk:18
     volumes:
-      - C:\Users\21311\Desktop\work\mall\WinterProject\target:/app
+      - <编译后的项目路径>:/app
     working_dir: /app
     command: java -jar WinterProject-0.0.1-SNAPSHOT.jar
     ports:
       - "8080:8080"
+    depends_on:
+      redis:
+        condition: service_healthy  
+    environment:
+      SPRING_REDIS_HOST: redis      
+
+  redis:
+    image: redis:alpine
+    command: redis-server --bind 0.0.0.0
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 3s
+      retries: 10
