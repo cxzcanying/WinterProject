@@ -23,8 +23,7 @@ public class Borrow {
     
     @NotEmpty(message = "用户ID不能为空")
     private String userId;
-    
-    @NotNull(message = "图书ID不能为空")
+
     private Integer bookId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -24,39 +24,37 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseBody
     public ResponseEntity<Result<?>> handleResourceNotFoundException(ResourceNotFoundException ex) {
         Result<?> result = Result.fail(ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DuplicateIsbnException.class)
-    @ResponseBody
     public ResponseEntity<Result<?>> handleDuplicateISBNException(DuplicateIsbnException ex) {
         Result<?> result = Result.fail(ex.getCode(), ex.getMessage());
         return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST) //设置状态码为 400
-    @ExceptionHandler({MethodArgumentNotValidException.class})
-    public String paramExceptionHandler(MethodArgumentNotValidException e) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Result<?>> handleValidationException(MethodArgumentNotValidException e) {
         BindingResult exceptions = e.getBindingResult();
+        StringBuilder message = new StringBuilder();
         if (exceptions.hasErrors()) {
             List<ObjectError> errors = exceptions.getAllErrors();
-            if (!errors.isEmpty()) {
-                FieldError fieldError = (FieldError) errors.get(0);
-                return fieldError.getDefaultMessage();
-            }
+            errors.forEach(error -> {
+                FieldError fieldError = (FieldError) error;
+                message.append(fieldError.getDefaultMessage()).append("; ");
+            });
         }
-        return "请求参数错误";
+        Result<?> result = Result.fail(400, message.length() > 0 ? message.toString() : "请求参数错误");
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseBody
     public ResponseEntity<Result<?>> handleException(Exception e) {
-        log.error("Internal Server Error", e);
-        Result<?> result = Result.fail(500, "Internal Server Error: " + e.getMessage());
+        log.error("系统异常", e);
+        String errorMessage = "系统异常，请稍后重试";
+        Result<?> result = Result.fail(500, errorMessage);
         return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

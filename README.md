@@ -24,7 +24,6 @@ WinterProject
 │   ├── sql                                      # Sql语句
 │   └── com/cxzcanying/winterproject/mapper      # MyBatis 映射文件
 ├── src/test                                     # 测试代码
-├── docker-compose.yml                           # Docker-Compose配置文件
 ├── README.md                                    # 项目介绍
 ├── API文档.md                                    # API规范文档
 └── pom.xml                                      # Maven 配置文件
@@ -38,12 +37,10 @@ WinterProject
 - **日志**：Logback, Spring Boot Logging
 - **AOP**：Spring AOP
 - **定时任务**：Quartz
-- **JSON 处理**：FastJSON
-- **单元测试**：JUnit, TestNG
+- **单元测试**：JUnit
 - **参数验证**：Spring Boot Validation
 - **分页**：PageHelper
-- **其他工具**：Lombok, JAXB, Spring Boot Actuator, Aliyun OSS Utils
-- **容器化工具**：Docker
+- **其他工具**：Lombok, Aliyun OSS Utils, Apifox
 
 ## 项目功能
 
@@ -137,13 +134,6 @@ WinterProject
 
 ### 添加 XSS 防护
 - 使用自定义过滤器防止 XSS 攻击。
-
-## 快速启动
-在项目根目录运行`mvn package`
-
-调整docker-compose.yml参数后运行`docker-compose up`
-
-本项目基于JDK18开发
 
 ## API 接口介绍
 

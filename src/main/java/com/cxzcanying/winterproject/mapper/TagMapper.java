@@ -26,12 +26,6 @@ public interface TagMapper {
     List<Tag> getTagsByBookId(Integer bookId);
 
     /**
-     * 删除标签
-     * @param tagId
-     */
-    void deleteTag(Integer tagId);
-
-    /**
      * 为指定图书添加标签
      * @param bookId
      * @param tagId

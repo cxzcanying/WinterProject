@@ -105,7 +105,7 @@ create table borrow
             on delete cascade,
     check (`status` in (_utf8mb4\'BORROWED\',_utf8mb4\'RETURNED\',_utf8mb4\'OVERDUE\'))
 )
-comment '借阅表';
+
 
 create index book_id
     on borrow (book_id);
@@ -169,8 +169,7 @@ create table review
     constraint rating_check2
         check (`rating` >= 1),
     check ((`rating` >= 1) and (`rating` <= 5))
-)
-    comment '评论表';
+)comment '评论表';
 
 create index book_id
     on review (book_id);
@@ -181,21 +180,7 @@ create index parent_id
 create index user_id
     on review (user_id);
 
-create table user_history
-(
-    id        int auto_increment
-        primary key,
-    user_id   int                                not null,
-    book_id   mediumint unsigned                 not null,
-    view_time datetime default CURRENT_TIMESTAMP null,
-    constraint user_history_ibfk_1
-        foreign key (user_id) references user (user_id)
-            on delete cascade,
-    constraint user_history_ibfk_2
-        foreign key (book_id) references book (id)
-            on delete cascade
-)
-    comment '用户浏览历史表';
+
 
 create index book_id
     on user_history (book_id);

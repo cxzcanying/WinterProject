@@ -26,26 +26,30 @@
         WHERE id = #{id}
     </select>
     <select id="searchBook" resultType="com.cxzcanying.winterproject.entity.Book">
-        SELECT id, title, isbn, author, published_year, price, category
-        FROM book
+        SELECT b.id, b.title, b.isbn, b.author, b.published_year, b.price, c.category_name as category
+        FROM book b
+        LEFT JOIN category c ON b.category = c.id
         <where>
             <if test="title != null and title != ''">
-                AND title LIKE CONCAT('%', #{title}, '%')
+                AND b.title LIKE CONCAT('%', #{title}, '%')
             </if>
             <if test="author != null and author != ''">
-                AND author LIKE CONCAT('%', #{author}, '%')
+                AND b.author LIKE CONCAT('%', #{author}, '%')
             </if>
             <if test="isbn != null and isbn != ''">
-                AND book_isbn = #{isbn}
+                AND b.isbn = #{isbn}
             </if>
-            <if test="publishedDateStart != null and publishedDateEnd != null">
-                AND published_year BETWEEN YEAR(STR_TO_DATE(#{publishedDateStart}, '%Y-%m-%d')) AND YEAR(STR_TO_DATE(#{publishedDateEnd}, '%Y-%m-%d'))
+            <if test="publishedDateStart != null and publishedDateStart != ''">
+                AND b.published_year <![CDATA[>=]]> #{publishedDateStart}
+            </if>
+            <if test="publishedDateEnd != null and publishedDateEnd != ''">
+                AND b.published_year <![CDATA[<=]]> #{publishedDateEnd}
             </if>
             <if test="priceMin != null and priceMax != null">
-                AND price BETWEEN #{priceMin} AND #{priceMax}
+                AND b.price BETWEEN #{priceMin} AND #{priceMax}
             </if>
             <if test="category != null and category != ''">
-                AND category = #{category}
+                AND c.id = #{category}
             </if>
         </where>
     </select>
@@ -93,14 +97,23 @@
     <select id="getRecommendedBooks" resultType="com.cxzcanying.winterproject.entity.Book">
         SELECT DISTINCT *
         FROM book
-        WHERE category IN
-        <foreach item="category" collection="categories" open="(" separator="," close=")">
-            #{category}
-        </foreach>
-        OR author IN
-        <foreach item="author" collection="authors" open="(" separator="," close=")">
-            #{author}
-        </foreach>
+        <where>
+            <if test="categories != null and categories.size() > 0">
+                category IN
+                <foreach item="category" collection="categories" open="(" separator="," close=")">
+                    #{category}
+                </foreach>
+            </if>
+            <if test="authors != null and authors.size() > 0">
+                <if test="categories != null and categories.size() > 0">
+                    OR
+                </if>
+                author IN
+                <foreach item="author" collection="authors" open="(" separator="," close=")">
+                    #{author}
+                </foreach>
+            </if>
+        </where>
         ORDER BY published_year DESC
         LIMIT 10
     </select>
@@ -117,7 +130,7 @@
                 AND author LIKE CONCAT('%', #{author}, '%')
             </if>
             <if test="isbn != null and isbn != ''">
-                AND book_isbn = #{isbn}
+                AND isbn = #{isbn}
             </if>
             <if test="publishedYear != null">
                 AND published_year = #{publishedYear}
