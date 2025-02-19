@@ -10,16 +10,15 @@ spring:
       max-request-size: 100MB
   data:
     redis:
-      host: localhost    # 修改这里，本地开发时使用 localhost
+      host: ${SPRING_REDIS_HOST:redis}
       port: 6379
       password: ""
-      timeout: 10000    # 添加超时配置
   cache:
     type: redis
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true  # 已经启用了，很好
+    map-underscore-to-camel-case: true
 #设置输出日志级别
 logging:
   level:
@@ -32,9 +31,9 @@ logging:
 #阿里云OSS配置
 aliyun:
   oss:
-    endpoint: https://oss-cn-chengdu.aliyuncs.com
-    accessKeyId: LTAI5tAae5c33H8pTCMRq5g4
-    accessKeySecret: S6xVr2LWsf5yEXtd1lUqIZ5szJNQNo
-    bucketName: springbot
+    endpoint: endpoint
+    accessKeyId: accessKeyId
+    accessKeySecret: accessKeySecret
+    bucketName: bucketName
 jwt:
-  secret-key: u6xfPEz4fn6SJN2JE0+MxEp1kNPTJaFAlAjjpc2j3hI=
+  secret-key: <your-secret-key>
